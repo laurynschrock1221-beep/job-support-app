@@ -110,7 +110,7 @@ export default function ManualPage() {
 
   // ── Single generate ───────────────────────────────────────────────────────
 
-  async function runGenerate(role: ManualRole, s: UserSettings): Promise<void> {
+  async function runGenerate(role: ManualRole, s: UserSettings): Promise<number | undefined> {
     const now = new Date().toISOString()
     const synUrl = syntheticManualUrl(role.company, role.title, now)
     const role_key = makeRoleKey(role.company, role.title, synUrl)
