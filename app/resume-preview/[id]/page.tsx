@@ -98,22 +98,21 @@ export default function ResumePreviewPage() {
       `}</style>
 
       {/* Toolbar */}
-      <div className="no-print fixed top-0 left-0 right-0 z-50 bg-slate-900 border-b border-slate-700 px-4 py-2.5 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="no-print fixed top-0 left-0 right-0 z-50 bg-slate-900 border-b border-slate-700">
+        {/* Row 1: close, title, primary action */}
+        <div className="flex items-center justify-between px-3 pt-2.5 pb-1.5 gap-2">
           <button
             onClick={() => window.close()}
-            className="text-slate-400 hover:text-white text-sm transition-colors"
+            className="text-slate-400 hover:text-white text-sm whitespace-nowrap transition-colors"
           >
             ← Close
           </button>
-          <div>
-            <p className="text-white text-sm font-medium">{draft.title}</p>
-            <p className="text-slate-400 text-xs">{draft.company}</p>
+          <div className="flex-1 min-w-0 px-2">
+            <p className="text-white text-sm font-medium truncate">{draft.title}</p>
+            <p className="text-slate-400 text-xs truncate">{draft.company}</p>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
           {editing ? (
-            <>
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => { setEditing(false); setEditText(draft.resume_text ?? '') }}
                 className="text-slate-400 hover:text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
@@ -127,45 +126,48 @@ export default function ResumePreviewPage() {
               >
                 {saving ? 'Saving...' : 'Save'}
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <button
-                onClick={() => setShowRaw(!showRaw)}
-                className="border border-slate-700 text-slate-400 hover:text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
-              >
-                {showRaw ? 'Preview' : 'Raw'}
-              </button>
-              <div className="flex items-center border border-slate-700 rounded-lg overflow-hidden">
-                <button
-                  onClick={() => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1)))}
-                  className="text-slate-400 hover:text-white text-sm px-2 py-1.5 transition-colors"
-                >−</button>
-                <span className="text-slate-400 text-xs px-1">{Math.round(zoom * 100)}%</span>
-                <button
-                  onClick={() => setZoom(z => Math.min(2, +(z + 0.1).toFixed(1)))}
-                  className="text-slate-400 hover:text-white text-sm px-2 py-1.5 transition-colors"
-                >+</button>
-              </div>
-              <button
-                onClick={() => setEditing(true)}
-                className="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
-              >
-                Edit Text
-              </button>
-              <button
-                onClick={() => window.print()}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
-              >
-                Save as PDF
-              </button>
-            </>
+            <button
+              onClick={() => window.print()}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors"
+            >
+              Save as PDF
+            </button>
           )}
         </div>
+        {/* Row 2: view controls (hidden while editing) */}
+        {!editing && (
+          <div className="flex items-center justify-between px-3 pb-2 gap-2">
+            <button
+              onClick={() => setShowRaw(!showRaw)}
+              className="border border-slate-700 text-slate-400 hover:text-white text-sm px-3 py-1 rounded-lg transition-colors"
+            >
+              {showRaw ? 'Preview' : 'Raw'}
+            </button>
+            <div className="flex items-center border border-slate-700 rounded-lg overflow-hidden">
+              <button
+                onClick={() => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1)))}
+                className="text-slate-300 hover:text-white text-base px-3 py-1 transition-colors"
+              >−</button>
+              <span className="text-slate-400 text-xs px-2">{Math.round(zoom * 100)}%</span>
+              <button
+                onClick={() => setZoom(z => Math.min(2, +(z + 0.1).toFixed(1)))}
+                className="text-slate-300 hover:text-white text-base px-3 py-1 transition-colors"
+              >+</button>
+            </div>
+            <button
+              onClick={() => setEditing(true)}
+              className="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm px-3 py-1 rounded-lg transition-colors"
+            >
+              Edit Text
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Page body */}
-      <div className="no-print pt-14 min-h-screen bg-slate-800 flex flex-col items-center py-8 px-2">
+      <div className="no-print pt-24 min-h-screen bg-slate-800 flex flex-col items-center py-8 px-2">
         {editing ? (
           <div className="w-full max-w-3xl">
             <p className="text-slate-400 text-xs mb-2">
