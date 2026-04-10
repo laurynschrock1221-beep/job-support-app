@@ -72,9 +72,28 @@ export default function ResumePreviewPage() {
             padding: 0.75in !important;
             box-shadow: none !important;
             margin: 0 !important;
+            transform: none !important;
           }
         }
         @page { size: letter; margin: 0; }
+        .resume-sheet-wrapper {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          overflow-x: hidden;
+        }
+        .resume-sheet {
+          transform-origin: top center;
+        }
+        @media (max-width: 820px) {
+          .resume-sheet-wrapper {
+            overflow-x: visible;
+          }
+          .resume-sheet {
+            transform: scale(var(--resume-scale, 0.45));
+            margin-bottom: calc((var(--resume-scale, 0.45) - 1) * 11in);
+          }
+        }
       `}</style>
 
       {/* Toolbar */}
@@ -134,7 +153,7 @@ export default function ResumePreviewPage() {
       </div>
 
       {/* Page body */}
-      <div className="no-print pt-14 min-h-screen bg-slate-800 flex flex-col items-center py-8 px-2 overflow-x-auto">
+      <div className="no-print pt-14 min-h-screen bg-slate-800 flex flex-col items-center py-8 px-2">
         {editing ? (
           <div className="w-full max-w-3xl">
             <p className="text-slate-400 text-xs mb-2">
@@ -154,7 +173,7 @@ export default function ResumePreviewPage() {
             </pre>
           </div>
         ) : (
-          <ResumeSheet parsed={parsed} ref={sheetRef} />
+          <ScaledResumeSheet parsed={parsed} sheetRef={sheetRef} />
         )}
       </div>
 
@@ -163,6 +182,41 @@ export default function ResumePreviewPage() {
         <ResumeSheet parsed={parsed} ref={null} />
       </div>
     </>
+  )
+}
+
+/* ─── Scaled wrapper for mobile ────────────────────────────────────── */
+
+function ScaledResumeSheet({ parsed, sheetRef }: { parsed: ParsedResume; sheetRef: React.RefObject<HTMLDivElement> }) {
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const [scale, setScale] = React.useState(1)
+
+  React.useEffect(() => {
+    function calcScale() {
+      const vw = window.innerWidth
+      const sheetPx = 8.5 * 96 // 8.5in at 96dpi = 816px
+      if (vw < sheetPx) {
+        setScale((vw - 16) / sheetPx)
+      } else {
+        setScale(1)
+      }
+    }
+    calcScale()
+    window.addEventListener('resize', calcScale)
+    return () => window.removeEventListener('resize', calcScale)
+  }, [])
+
+  const sheetPx = 8.5 * 96
+  const scaledHeight = 11 * 96 * scale
+
+  return (
+    <div ref={wrapperRef} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: sheetPx * scale, height: scaledHeight, position: 'relative', flexShrink: 0 }}>
+        <div style={{ transformOrigin: 'top left', transform: `scale(${scale})`, width: sheetPx, position: 'absolute', top: 0, left: 0 }}>
+          <ResumeSheet parsed={parsed} ref={sheetRef} />
+        </div>
+      </div>
+    </div>
   )
 }
 
