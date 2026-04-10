@@ -28,6 +28,7 @@ export default function DraftsPage() {
   const [regenerating, setRegenerating] = useState(false)
   const [regenError, setRegenError] = useState('')
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     Promise.all([
@@ -165,6 +166,14 @@ export default function DraftsPage() {
       setRegenerating(false)
     }
   }
+
+  const filteredDrafts = search.trim()
+    ? drafts.filter(
+        (d) =>
+          d.company.toLowerCase().includes(search.toLowerCase()) ||
+          d.title.toLowerCase().includes(search.toLowerCase())
+      )
+    : drafts
 
   if (loading) {
     return (
@@ -304,6 +313,14 @@ export default function DraftsPage() {
                   >
                     {copiedCL ? 'Copied!' : 'Copy'}
                   </button>
+                  <button
+                    onClick={() => handleGenerateCoverLetter(selected)}
+                    disabled={generatingCL}
+                    className="px-3 py-2.5 rounded-lg border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm transition-colors disabled:opacity-50"
+                    title="Regenerate Cover Letter"
+                  >
+                    {generatingCL ? '...' : '↺'}
+                  </button>
                 </>
 
               ) : (
@@ -358,8 +375,33 @@ export default function DraftsPage() {
         </div>
       ) : (
         /* Draft list */
-        <div className="space-y-2">
-          {drafts.map((draft) => (
+        <div className="space-y-3">
+          {/* Search */}
+          <div className="relative">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by company or title..."
+              className="w-full bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 pr-8"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                aria-label="Clear search"
+              >
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            )}
+          </div>
+          <div className="space-y-2">
+          {filteredDrafts.length === 0 && (
+            <p className="text-slate-500 text-sm text-center py-8">No drafts match your search.</p>
+          )}
+          {filteredDrafts.map((draft) => (
             <div
               key={draft.id}
               className="rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3 flex items-center gap-3"
@@ -415,6 +457,7 @@ export default function DraftsPage() {
               )}
             </div>
           ))}
+          </div>
         </div>
       )}
     </div>

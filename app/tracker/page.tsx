@@ -54,6 +54,7 @@ export default function TrackerPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [filterStatus, setFilterStatus] = useState<ApplicationStatus | 'all'>('all')
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
 
   useEffect(() => {
     Promise.all([getApplications(), getProcessedStatesByStatus('generated')]).then(([a, d]) => {
@@ -137,7 +138,13 @@ export default function TrackerPage() {
     setExpandedId(null)
   }
 
-  const filtered = filterStatus === 'all' ? apps : apps.filter((a) => a.status === filterStatus)
+  const filtered = (filterStatus === 'all' ? apps : apps.filter((a) => a.status === filterStatus))
+    .slice()
+    .sort((a, b) => {
+      const ta = new Date(a.created_at ?? 0).getTime()
+      const tb = new Date(b.created_at ?? 0).getTime()
+      return sortOrder === 'desc' ? tb - ta : ta - tb
+    })
 
   const counts: Partial<Record<ApplicationStatus, number>> = {}
   for (const a of apps) counts[a.status] = (counts[a.status] ?? 0) + 1
@@ -157,12 +164,21 @@ export default function TrackerPage() {
           <h1 className="text-xl font-semibold text-white">Application Tracker</h1>
           <p className="text-slate-500 text-sm mt-0.5">{apps.length} application{apps.length !== 1 ? 's' : ''} tracked</p>
         </div>
-        <button
-          onClick={openAdd}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors"
-        >
-          + Add
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setSortOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
+            className="text-xs text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 px-2.5 py-1.5 rounded-lg transition-colors"
+            title={sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
+          >
+            {sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
+          </button>
+          <button
+            onClick={openAdd}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors"
+          >
+            + Add
+          </button>
+        </div>
       </div>
 
       {/* Status summary */}

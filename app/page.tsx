@@ -3,14 +3,15 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
-  getProcessedStates,
+  getProcessedStatesByStatus,
   getTodayProcessedStates,
   getDailyCount,
   getSettings,
   getPendingManualRoles,
+  getApplications,
   todayDate,
 } from '@/lib/storage'
-import type { ProcessedState, DailyCount, UserSettings } from '@/lib/types'
+import type { ProcessedState, DailyCount, UserSettings, ApplicationEntry } from '@/lib/types'
 
 const STATUS_COLORS: Record<string, string> = {
   generated: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
@@ -53,6 +54,7 @@ function buildRecommendation(
 export default function DashboardPage() {
   const [todayStates, setTodayStates] = useState<ProcessedState[]>([])
   const [recentGenerated, setRecentGenerated] = useState<ProcessedState[]>([])
+  const [followUpsDue, setFollowUpsDue] = useState<ApplicationEntry[]>([])
   const [dailyCount, setDailyCount] = useState<DailyCount | null>(null)
   const [settings, setSettings] = useState<UserSettings | null>(null)
   const [pendingManual, setPendingManual] = useState(0)
@@ -60,15 +62,28 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function load() {
-      const [todayS, allS, count, s, pending] = await Promise.all([
+      const [todayS, generatedS, count, s, pending, apps] = await Promise.all([
         getTodayProcessedStates(),
-        getProcessedStates(),
+        getProcessedStatesByStatus('generated'),
         getDailyCount(todayDate()),
         getSettings(),
         getPendingManualRoles(),
+        getApplications(),
       ])
       setTodayStates(todayS)
-      setRecentGenerated(allS.filter((r) => r.status === 'generated').slice(0, 5))
+      const sorted = [...generatedS].sort(
+        (a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime()
+      )
+      setRecentGenerated(sorted.slice(0, 3))
+      const today = todayDate()
+      setFollowUpsDue(
+        apps.filter(
+          (a) =>
+            a.follow_up_date &&
+            a.follow_up_date <= today &&
+            (a.status === 'applied' || a.status === 'interviewing')
+        )
+      )
       setDailyCount(count)
       setSettings(s)
       setPendingManual(pending.length)
@@ -183,6 +198,26 @@ export default function DashboardPage() {
               View all {todayStates.length} candidates
             </Link>
           )}
+        </div>
+      )}
+
+      {followUpsDue.length > 0 && (
+        <div>
+          <h2 className="text-sm font-medium text-slate-400 mb-2">Follow-ups Due</h2>
+          <div className="space-y-2">
+            {followUpsDue.map((app) => (
+              <div
+                key={app.id}
+                className="rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 flex items-center gap-3"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-white text-sm font-medium truncate">{app.title}</p>
+                  <p className="text-slate-400 text-xs truncate">{app.company}</p>
+                </div>
+                <span className="text-amber-400 text-xs font-medium shrink-0">{app.follow_up_date}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
