@@ -57,6 +57,23 @@ export default function MetricsPage() {
   }
   const roleTypeEntries = Object.entries(roleTypes).sort((a, b) => b[1].applied - a[1].applied)
 
+  // Match score by role type — across ALL drafts, not just applied ones
+  const matchByType: Record<string, number[]> = {}
+  for (const draft of drafts) {
+    if (draft.match_pct === undefined) continue
+    const type = classifyTitle(draft.title)
+    if (!matchByType[type]) matchByType[type] = []
+    matchByType[type].push(draft.match_pct)
+  }
+  const matchByTypeEntries = Object.entries(matchByType)
+    .map(([type, scores]) => ({
+      type,
+      avg: Math.round(scores.reduce((s, n) => s + n, 0) / scores.length),
+      count: scores.length,
+      high: scores.filter(s => s >= 70).length,
+    }))
+    .sort((a, b) => b.avg - a.avg)
+
   // Match % correlation — drafts with match_pct vs their application outcome
   const draftMap = Object.fromEntries(drafts.map(d => [d.role_key, d]))
   const withMatch = apps
@@ -142,6 +159,34 @@ export default function MetricsPage() {
                     </div>
                     <span className="text-xs text-indigo-400 w-8 text-right shrink-0">
                       {data.applied > 0 ? Math.round((data.responded / data.applied) * 100) : 0}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Section>
+          )}
+
+          {/* Match score by role type */}
+          {matchByTypeEntries.length > 0 && (
+            <Section title="Avg Match Score by Role Type">
+              <p className="text-slate-500 text-xs mb-2">Based on all generated drafts — higher avg = stronger natural fit</p>
+              <div className="space-y-2">
+                {matchByTypeEntries.map(({ type, avg, count, high }) => (
+                  <div key={type} className="flex items-center gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-300 truncate">{type}</span>
+                        <span className="text-slate-500 ml-2 shrink-0">{count} draft{count !== 1 ? 's' : ''} · {high} ≥70%</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${avg >= 70 ? 'bg-emerald-500' : avg >= 55 ? 'bg-indigo-500' : 'bg-slate-500'}`}
+                          style={{ width: `${avg}%` }}
+                        />
+                      </div>
+                    </div>
+                    <span className={`text-xs w-8 text-right shrink-0 font-medium ${avg >= 70 ? 'text-emerald-400' : avg >= 55 ? 'text-indigo-400' : 'text-slate-400'}`}>
+                      {avg}%
                     </span>
                   </div>
                 ))}
