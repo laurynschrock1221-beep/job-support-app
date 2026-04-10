@@ -116,11 +116,12 @@ RULES — violating any rule makes the output unusable:
 1. The five section headers must appear EXACTLY as shown: PROFESSIONAL SUMMARY, CORE COMPETENCIES, PROFESSIONAL EXPERIENCE, EDUCATION, TECHNICAL TOOLS — no substitutions, no additions, no extra sections
 2. CORE COMPETENCIES: exactly 7-8 bullet points, each 1-4 words, chosen to match the target role
 3. PROFESSIONAL EXPERIENCE: 5-7 bullets for the most recent role, 3-4 for older roles
-4. Each bullet is one sentence, maximum 20 words, starts with a strong past-tense action verb
-5. Do NOT invent, fabricate, or embellish any experience, dates, titles, companies, or credentials
-6. TECHNICAL TOOLS: pipe-separated on a single line, no bullets
-7. No markdown, no asterisks, no bold/italic markers — plain text only
-8. Output ONLY the resume. No preamble, explanation, or commentary.`
+4. PROFESSIONAL EXPERIENCE must be ordered by most recent end date — roles with "Present" always appear first, regardless of start date. A role active "Present" outranks any ended role even if the ended role started more recently.
+5. Each bullet is one sentence, maximum 20 words, starts with a strong past-tense action verb (use present tense for current "Present" roles)
+6. Do NOT invent, fabricate, or embellish any experience, dates, titles, companies, or credentials
+7. TECHNICAL TOOLS: pipe-separated on a single line, no bullets
+8. No markdown, no asterisks, no bold/italic markers — plain text only
+9. Output ONLY the resume. No preamble, explanation, or commentary.`
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-6',
