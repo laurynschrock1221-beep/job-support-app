@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { getProcessedStateById, saveProcessedState } from '@/lib/storage'
+import { ContactLine } from '@/app/resume-preview/[id]/page'
 import type { ProcessedState } from '@/lib/types'
 
 export default function CoverLetterPreviewPage() {
@@ -192,6 +193,8 @@ function ScaledCoverLetterSheet({ text, userZoom }: { text: string; userZoom: nu
 
 function CoverLetterSheet({ text }: { text: string }) {
   const blocks = text.split(/\n\n+/).map(b => b.trim()).filter(Boolean)
+  // Header block is everything before "Dear Hiring Manager"
+  const dearIdx = blocks.findIndex(b => /^dear /i.test(b))
 
   return (
     <div
@@ -210,6 +213,7 @@ function CoverLetterSheet({ text }: { text: string }) {
         const isClosing = /^(sincerely|regards|best|thank you)/i.test(block)
         const isSalutation = /^dear /i.test(block)
         const isSignature = i === blocks.length - 1 && !isSalutation && !isClosing
+        const isHeader = dearIdx > 0 && i < dearIdx
 
         return (
           <div
@@ -219,11 +223,20 @@ function CoverLetterSheet({ text }: { text: string }) {
               marginTop: isClosing ? '24pt' : '0',
             }}
           >
-            {block.split('\n').map((line, j) => (
-              <div key={j} style={{ minHeight: line ? undefined : '0' }}>
-                {line || '\u00A0'}
-              </div>
-            ))}
+            {isHeader ? (
+              // Render header lines with hyperlink support
+              block.split('\n').map((line, j) => (
+                <div key={j} style={{ fontWeight: j === 0 ? 'bold' : 'normal', fontSize: j === 0 ? '13pt' : '10pt' }}>
+                  {j === 0 ? line : <ContactLine text={line} />}
+                </div>
+              ))
+            ) : (
+              block.split('\n').map((line, j) => (
+                <div key={j} style={{ minHeight: line ? undefined : '0' }}>
+                  {line || '\u00A0'}
+                </div>
+              ))
+            )}
           </div>
         )
       })}

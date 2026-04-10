@@ -383,22 +383,22 @@ const ResumeSheet = forwardRef<HTMLDivElement, { parsed: ParsedResume }>(
   }
 )
 
-function ContactLine({ text }: { text: string }) {
+export function ContactLine({ text }: { text: string }) {
   // Split on | or • separators
   const parts = text.split(/[|•]/).map(p => p.trim()).filter(Boolean)
   return (
     <>
       {parts.map((part, i) => {
         const isLinkedIn = /linkedin/i.test(part)
-        const isUrl = /^https?:\/\//i.test(part)
         const isEmail = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(part)
         const isPhone = /\(?\d{3}\)?[\s\-\.]?\d{3}[\s\-\.]?\d{4}/.test(part)
         let node: React.ReactNode = part
         if (isLinkedIn) {
-          const href = part.startsWith('http') ? part : `https://${part}`
-          node = <a href={href} style={{ color: '#333', textDecoration: 'underline' }}>LinkedIn</a>
-        } else if (isUrl) {
-          node = <a href={part} style={{ color: '#333', textDecoration: 'underline' }}>{part}</a>
+          // Extract just the URL portion, strip surrounding whitespace/text
+          const urlMatch = part.match(/(https?:\/\/[^\s]+|linkedin\.com\/[^\s]+)/i)
+          const raw = urlMatch ? urlMatch[0] : part.trim()
+          const href = raw.startsWith('http') ? raw : `https://${raw}`
+          node = <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#333', textDecoration: 'underline' }}>LinkedIn</a>
         } else if (isEmail) {
           const email = part.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] ?? part
           node = <a href={`mailto:${email}`} style={{ color: '#333', textDecoration: 'underline' }}>{part}</a>
