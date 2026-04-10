@@ -56,7 +56,8 @@ export function parseResume(raw: string): ParsedResume {
 
   const headerLines = lines.slice(0, firstHeaderIdx).map(l => l.trim()).filter(Boolean)
   const nameLine = headerLines[0] ?? ''
-  const contactLine = headerLines[1] ?? ''
+  // Join all header lines after the name — handles multi-line contact blocks
+  const contactLine = headerLines.slice(1).join(' | ')
 
   const credMatch =
     nameLine.match(/^(.+?),\s*(M[A-Z].+)$/) ||

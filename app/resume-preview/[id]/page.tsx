@@ -16,6 +16,7 @@ export default function ResumePreviewPage() {
   const [editText, setEditText] = useState('')
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [zoom, setZoom] = useState(1)
   const sheetRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -135,6 +136,17 @@ export default function ResumePreviewPage() {
               >
                 {showRaw ? 'Preview' : 'Raw'}
               </button>
+              <div className="flex items-center border border-slate-700 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1)))}
+                  className="text-slate-400 hover:text-white text-sm px-2 py-1.5 transition-colors"
+                >−</button>
+                <span className="text-slate-400 text-xs px-1">{Math.round(zoom * 100)}%</span>
+                <button
+                  onClick={() => setZoom(z => Math.min(2, +(z + 0.1).toFixed(1)))}
+                  className="text-slate-400 hover:text-white text-sm px-2 py-1.5 transition-colors"
+                >+</button>
+              </div>
               <button
                 onClick={() => setEditing(true)}
                 className="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
@@ -173,7 +185,7 @@ export default function ResumePreviewPage() {
             </pre>
           </div>
         ) : (
-          <ScaledResumeSheet parsed={parsed} sheetRef={sheetRef} />
+          <ScaledResumeSheet parsed={parsed} sheetRef={sheetRef} userZoom={zoom} />
         )}
       </div>
 
@@ -187,30 +199,26 @@ export default function ResumePreviewPage() {
 
 /* ─── Scaled wrapper for mobile ────────────────────────────────────── */
 
-function ScaledResumeSheet({ parsed, sheetRef }: { parsed: ParsedResume; sheetRef: React.RefObject<HTMLDivElement | null> }) {
-  const wrapperRef = React.useRef<HTMLDivElement>(null)
-  const [scale, setScale] = React.useState(1)
+function ScaledResumeSheet({ parsed, sheetRef, userZoom }: { parsed: ParsedResume; sheetRef: React.RefObject<HTMLDivElement | null>; userZoom: number }) {
+  const [autoScale, setAutoScale] = React.useState(1)
 
   React.useEffect(() => {
     function calcScale() {
       const vw = window.innerWidth
-      const sheetPx = 8.5 * 96 // 8.5in at 96dpi = 816px
-      if (vw < sheetPx) {
-        setScale((vw - 16) / sheetPx)
-      } else {
-        setScale(1)
-      }
+      const sheetPx = 8.5 * 96
+      setAutoScale(vw < sheetPx ? (vw - 16) / sheetPx : 1)
     }
     calcScale()
     window.addEventListener('resize', calcScale)
     return () => window.removeEventListener('resize', calcScale)
   }, [])
 
+  const scale = autoScale * userZoom
   const sheetPx = 8.5 * 96
   const scaledHeight = 11 * 96 * scale
 
   return (
-    <div ref={wrapperRef} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', overflowX: 'auto' }}>
       <div style={{ width: sheetPx * scale, height: scaledHeight, position: 'relative', flexShrink: 0 }}>
         <div style={{ transformOrigin: 'top left', transform: `scale(${scale})`, width: sheetPx, position: 'absolute', top: 0, left: 0 }}>
           <ResumeSheet parsed={parsed} ref={sheetRef} />
