@@ -49,7 +49,7 @@ export default function AuthPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-stone-900/60 border border-stone-700/50 rounded-2xl p-6 space-y-4 backdrop-blur-sm">
+        <form onSubmit={handleSubmit} className="bg-stone-800/70 border border-stone-600/60 rounded-2xl p-6 space-y-4 backdrop-blur-sm">
           <div className="space-y-1">
             <label className="text-xs text-stone-400 uppercase tracking-wider">Email</label>
             <input
@@ -59,7 +59,7 @@ export default function AuthPage() {
               required
               autoComplete="email"
               placeholder="you@example.com"
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
             />
           </div>
 
@@ -73,7 +73,7 @@ export default function AuthPage() {
               autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
               placeholder="••••••••"
               minLength={6}
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
             />
           </div>
 

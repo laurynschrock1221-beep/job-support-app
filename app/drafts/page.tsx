@@ -195,7 +195,7 @@ export default function DraftsPage() {
       {drafts.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-stone-500 text-sm">No drafts yet.</p>
-          <p className="text-stone-600 text-xs mt-1">
+          <p className="text-stone-500 text-xs mt-1">
             Paste a job description in the Manual tab to generate your first draft.
           </p>
         </div>
@@ -216,7 +216,7 @@ export default function DraftsPage() {
             Back to list
           </button>
 
-          <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 p-4 space-y-3 backdrop-blur-sm">
+          <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 p-4 space-y-3 backdrop-blur-sm">
             <div>
               <p className="text-stone-100 font-medium">{selected.title}</p>
               <p className="text-stone-400 text-sm">{selected.company}</p>
@@ -262,13 +262,13 @@ export default function DraftsPage() {
             {regenError && <p className="text-rose-400 text-xs">{regenError}</p>}
 
             {selected.integrity_notes && (
-              <div className="rounded-lg bg-stone-900 px-3 py-2">
+              <div className="rounded-lg bg-stone-700 px-3 py-2">
                 <p className="text-xs text-stone-400">{selected.integrity_notes}</p>
               </div>
             )}
 
             {/* Tab switcher */}
-            <div className="flex rounded-lg bg-stone-900 p-1 gap-1">
+            <div className="flex rounded-lg bg-stone-700 p-1 gap-1">
               <button
                 onClick={() => setActiveTab('resume')}
                 className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${activeTab === 'resume' ? 'bg-amber-700 text-stone-100' : 'text-stone-400 hover:text-stone-100'}`}
@@ -357,7 +357,7 @@ export default function DraftsPage() {
 
           {/* Content preview */}
           {activeTab === 'resume' && selected.resume_text && (
-            <div className="rounded-xl bg-stone-900 border border-stone-700/50 p-4 backdrop-blur-sm">
+            <div className="rounded-xl bg-stone-700 border border-stone-600/60 p-4 backdrop-blur-sm">
               <p className="text-xs text-stone-500 mb-3 font-medium uppercase tracking-wide">Resume Preview</p>
               <pre className="text-stone-300 text-xs leading-relaxed whitespace-pre-wrap font-mono overflow-auto max-h-[60vh]">
                 {selected.resume_text}
@@ -365,7 +365,7 @@ export default function DraftsPage() {
             </div>
           )}
           {activeTab === 'cover_letter' && selected.cover_letter_text && (
-            <div className="rounded-xl bg-stone-900 border border-stone-700/50 p-4 backdrop-blur-sm">
+            <div className="rounded-xl bg-stone-700 border border-stone-600/60 p-4 backdrop-blur-sm">
               <p className="text-xs text-stone-500 mb-3 font-medium uppercase tracking-wide">Cover Letter Preview</p>
               <p className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap">
                 {selected.cover_letter_text}
@@ -383,7 +383,7 @@ export default function DraftsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by company or title..."
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 pr-8"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 pr-8"
             />
             {search && (
               <button
@@ -404,7 +404,7 @@ export default function DraftsPage() {
           {filteredDrafts.map((draft) => (
             <div
               key={draft.id}
-              className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
+              className="rounded-xl bg-stone-700/70 border border-stone-600/60 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
             >
               <button
                 onClick={() => setSelected(draft)}
@@ -448,7 +448,7 @@ export default function DraftsPage() {
               ) : (
                 <button
                   onClick={() => setConfirmDeleteId(draft.id)}
-                  className="shrink-0 text-stone-600 hover:text-rose-400 transition-colors p-1"
+                  className="shrink-0 text-stone-500 hover:text-rose-400 transition-colors p-1"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                     <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clipRule="evenodd" />

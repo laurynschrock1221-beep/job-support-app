@@ -149,7 +149,7 @@ export default function DashboardPage() {
             {gen} / {cap}
           </span>
         </div>
-        <div className="h-2 bg-stone-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-stone-700 rounded-full overflow-hidden">
           <div
             className="h-full bg-amber-500 rounded-full transition-all"
             style={{ width: `${Math.min(100, (gen / cap) * 100)}%` }}
@@ -160,7 +160,7 @@ export default function DashboardPage() {
       {pendingManual > 0 && (
         <Link
           href="/manual"
-          className="flex items-center justify-between rounded-xl bg-stone-800/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm"
+          className="flex items-center justify-between rounded-xl bg-stone-600/50 border border-stone-600/60 px-4 py-3 backdrop-blur-sm"
         >
           <div>
             <p className="text-stone-100 text-sm font-medium">
@@ -229,7 +229,7 @@ export default function DashboardPage() {
               <Link
                 key={role.id}
                 href="/drafts"
-                className="flex items-center justify-between rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm"
+                className="flex items-center justify-between rounded-xl bg-stone-700/70 border border-stone-600/60 px-4 py-3 backdrop-blur-sm"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-stone-100 text-sm font-medium truncate">{role.title}</p>
@@ -255,7 +255,7 @@ export default function DashboardPage() {
         </Link>
         <Link
           href="/drafts"
-          className="rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-100 text-sm font-medium text-center py-3 transition-colors border border-stone-700"
+          className="rounded-xl bg-stone-700 hover:bg-stone-700 text-stone-100 text-sm font-medium text-center py-3 transition-colors border border-stone-600"
         >
           View Drafts
         </Link>
@@ -282,7 +282,7 @@ function StatCard({
     yellow: 'text-amber-400',
   }
   return (
-    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm">
+    <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 px-4 py-3 backdrop-blur-sm">
       <p className="text-stone-400 text-xs">{label}</p>
       <p className={`text-2xl font-bold mt-1 ${colorMap[color]}`}>
         {value}
@@ -296,7 +296,7 @@ function StatCard({
 
 function RoleRow({ role }: { role: ProcessedState }) {
   return (
-    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
+    <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
       <div className="min-w-0 flex-1">
         <p className="text-stone-100 text-sm font-medium truncate">{role.title}</p>
         <p className="text-stone-400 text-xs truncate">{role.company}</p>

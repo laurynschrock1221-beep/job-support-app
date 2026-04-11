@@ -55,7 +55,7 @@ export default function Nav() {
   const path = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-stone-900/90 border-t border-stone-800 backdrop-blur-sm">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-stone-800/90 border-t border-stone-700 backdrop-blur-sm">
       <div className="flex max-w-lg mx-auto">
         {TABS.map((tab) => {
           const active = path === tab.href

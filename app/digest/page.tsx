@@ -108,7 +108,7 @@ export default function MetricsPage() {
       {total === 0 ? (
         <div className="text-center py-16">
           <p className="text-stone-500 text-sm">No applications tracked yet.</p>
-          <p className="text-stone-600 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
+          <p className="text-stone-500 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
         </div>
       ) : (
         <>
@@ -120,7 +120,7 @@ export default function MetricsPage() {
                 .map(([status, n]) => {
                   const meta = STATUS_META[status]
                   return (
-                    <div key={status} className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                    <div key={status} className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
                       <p className="text-stone-400 text-[10px] mb-0.5">{meta.emoji} {meta.label}</p>
                       <p className={`text-2xl font-bold ${meta.color}`}>{n}</p>
                       <p className="text-stone-500 text-[10px]">{Math.round((n / total) * 100)}% of total</p>
@@ -199,12 +199,12 @@ export default function MetricsPage() {
             <Section title="Match Score Correlation">
               {avgMatchAll !== null && (
                 <div className="grid grid-cols-2 gap-2 mb-3">
-                  <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                  <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
                     <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (all)</p>
                     <p className="text-2xl font-bold text-stone-200">{avgMatchAll}%</p>
                   </div>
                   {avgMatchResponded !== null && (
-                    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                    <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
                       <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (callbacks)</p>
                       <p className="text-2xl font-bold text-emerald-400">{avgMatchResponded}%</p>
                     </div>
@@ -245,10 +245,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function RateCard({ label, value, color, hint }: { label: string; value: number; color: 'amber' | 'yellow' | 'rose'; hint: string }) {
   const colorMap = { amber: 'text-amber-400', yellow: 'text-amber-300', rose: 'text-rose-400' }
   return (
-    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 text-center backdrop-blur-sm">
+    <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 text-center backdrop-blur-sm">
       <p className={`text-xl font-bold ${colorMap[color]}`}>{value}%</p>
       <p className="text-stone-300 text-[10px] mt-0.5">{label}</p>
-      <p className="text-stone-600 text-[9px]">{hint}</p>
+      <p className="text-stone-500 text-[9px]">{hint}</p>
     </div>
   )
 }

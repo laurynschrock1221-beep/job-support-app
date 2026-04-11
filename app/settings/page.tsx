@@ -162,7 +162,7 @@ export default function SettingsPage() {
           onChange={(e) => setSettings((s) => ({ ...s, master_resume: e.target.value }))}
           placeholder="Paste your full resume here (plain text)..."
           rows={14}
-          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
+          className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
         />
         {!settings.master_resume?.trim() && (
           <p className="text-amber-400 text-xs mt-1">Required — needed for scoring and generation.</p>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
           onChange={(e) => setSettings((s) => ({ ...s, fact_bank: e.target.value }))}
           placeholder="e.g. Led Salesforce migration for 200-person org. Reduced contract cycle time by 40%..."
           rows={6}
-          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
+          className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
         />
       </Section>
 
@@ -205,9 +205,9 @@ export default function SettingsPage() {
         </label>
 
         <div className="flex items-center gap-2">
-          <div className="flex-1 border-t border-stone-700" />
-          <span className="text-stone-600 text-xs">or paste text</span>
-          <div className="flex-1 border-t border-stone-700" />
+          <div className="flex-1 border-t border-stone-600" />
+          <span className="text-stone-500 text-xs">or paste text</span>
+          <div className="flex-1 border-t border-stone-600" />
         </div>
 
         <textarea
@@ -215,7 +215,7 @@ export default function SettingsPage() {
           onChange={(e) => { setVaultText(e.target.value); setExtractResult(null) }}
           placeholder="Paste an older resume here (plain text)..."
           rows={8}
-          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
+          className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
         />
         <button
           onClick={handleExtractFacts}
@@ -225,7 +225,7 @@ export default function SettingsPage() {
           {extracting ? 'Extracting new facts...' : 'Extract & Add to Fact Bank'}
         </button>
         {extractResult && (
-          <div className={`rounded-lg px-3 py-2.5 text-xs ${extractResult.startsWith('No new') ? 'bg-stone-800 text-stone-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'}`}>
+          <div className={`rounded-lg px-3 py-2.5 text-xs ${extractResult.startsWith('No new') ? 'bg-stone-700 text-stone-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'}`}>
             {extractResult.startsWith('No new') ? extractResult : (
               <>
                 <p className="font-medium mb-1.5">Added to your Fact Bank:</p>
@@ -253,9 +253,9 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings((s) => ({ ...s, daily_cap: parseInt(e.target.value) || 5 }))
               }
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             />
-            <p className="text-stone-600 text-[10px] mt-1">Max resumes per day</p>
+            <p className="text-stone-500 text-[10px] mt-1">Max resumes per day</p>
           </div>
           <div>
             <label className="block text-xs text-stone-400 mb-1">Match threshold</label>
@@ -267,9 +267,9 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings((s) => ({ ...s, match_threshold: parseInt(e.target.value) || 55 }))
               }
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             />
-            <p className="text-stone-600 text-[10px] mt-1">Min AI score (0–100)</p>
+            <p className="text-stone-500 text-[10px] mt-1">Min AI score (0–100)</p>
           </div>
         </div>
       </Section>
@@ -286,7 +286,7 @@ export default function SettingsPage() {
               value={targetTitles}
               onChange={(e) => setTargetTitles(e.target.value)}
               placeholder="Program Manager, Operations Manager, RevOps..."
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
           <div>
@@ -295,7 +295,7 @@ export default function SettingsPage() {
               value={targetLocations}
               onChange={(e) => setTargetLocations(e.target.value)}
               placeholder="Remote, Denver CO, Hybrid..."
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
           <div>
@@ -304,7 +304,7 @@ export default function SettingsPage() {
               value={excludedTerms}
               onChange={(e) => setExcludedTerms(e.target.value)}
               placeholder="engineer, developer, attorney..."
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
         </div>
@@ -326,7 +326,7 @@ export default function SettingsPage() {
       </button>
 
       {/* Sign out */}
-      <div className="border-t border-stone-800 pt-4">
+      <div className="border-t border-stone-600 pt-4">
         <button
           onClick={handleSignOut}
           className="w-full text-stone-500 hover:text-rose-400 text-sm py-2 transition-colors"

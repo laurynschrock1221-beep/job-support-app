@@ -167,7 +167,7 @@ export default function TrackerPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSortOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
-            className="text-xs text-stone-400 hover:text-stone-100 border border-stone-700 hover:border-stone-500 px-2.5 py-1.5 rounded-lg transition-colors"
+            className="text-xs text-stone-400 hover:text-stone-100 border border-stone-600 hover:border-stone-500 px-2.5 py-1.5 rounded-lg transition-colors"
             title={sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
           >
             {sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
@@ -189,7 +189,7 @@ export default function TrackerPage() {
               key={s.value}
               onClick={() => setFilterStatus(filterStatus === s.value ? 'all' : s.value)}
               className={`rounded-lg border px-2 py-1.5 text-center transition-colors ${
-                filterStatus === s.value ? s.color : 'border-stone-700 bg-stone-800/60'
+                filterStatus === s.value ? s.color : 'border-stone-600 bg-stone-600/50'
               }`}
             >
               <p className={`text-lg font-bold ${filterStatus === s.value ? '' : 'text-stone-100'}`}>
@@ -205,7 +205,7 @@ export default function TrackerPage() {
 
       {/* Add / Edit form */}
       {showForm && (
-        <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 p-4 space-y-3 backdrop-blur-sm">
+        <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 p-4 space-y-3 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-stone-100">{editingId ? 'Edit Application' : 'Add Application'}</p>
             {!editingId && drafts.length > 0 && (
@@ -220,14 +220,14 @@ export default function TrackerPage() {
 
           {/* Draft picker */}
           {showDraftPicker && (
-            <div className="rounded-lg bg-stone-900 border border-stone-700/50 overflow-hidden">
+            <div className="rounded-lg bg-stone-700 border border-stone-600/60 overflow-hidden">
               <p className="text-xs text-stone-500 px-3 pt-2.5 pb-1.5">Select a draft to pre-fill</p>
               <div className="divide-y divide-stone-800 max-h-48 overflow-y-auto">
                 {drafts.map((draft) => (
                   <button
                     key={draft.id}
                     onClick={() => pickDraft(draft)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-stone-800 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-stone-700 transition-colors"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-stone-100 text-sm truncate">{draft.title}</p>
@@ -249,7 +249,7 @@ export default function TrackerPage() {
                 value={form.company}
                 onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                 placeholder="Acme Corp"
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
@@ -258,7 +258,7 @@ export default function TrackerPage() {
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 placeholder="Program Manager"
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
@@ -268,7 +268,7 @@ export default function TrackerPage() {
             <select
               value={form.status}
               onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as ApplicationStatus }))}
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             >
               {STATUSES.map((s) => (
                 <option key={s.value} value={s.value}>{s.label}</option>
@@ -283,7 +283,7 @@ export default function TrackerPage() {
                 type="date"
                 value={form.applied_date}
                 onChange={(e) => setForm((f) => ({ ...f, applied_date: e.target.value }))}
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
@@ -292,7 +292,7 @@ export default function TrackerPage() {
                 type="date"
                 value={form.follow_up_date}
                 onChange={(e) => setForm((f) => ({ ...f, follow_up_date: e.target.value }))}
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
@@ -304,7 +304,7 @@ export default function TrackerPage() {
                 value={form.contact_name}
                 onChange={(e) => setForm((f) => ({ ...f, contact_name: e.target.value }))}
                 placeholder="Jane Smith"
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
@@ -314,7 +314,7 @@ export default function TrackerPage() {
                 value={form.contact_email}
                 onChange={(e) => setForm((f) => ({ ...f, contact_email: e.target.value }))}
                 placeholder="jane@company.com"
-                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+                className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function TrackerPage() {
               value={form.job_url}
               onChange={(e) => setForm((f) => ({ ...f, job_url: e.target.value }))}
               placeholder="https://..."
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
 
@@ -336,7 +336,7 @@ export default function TrackerPage() {
               onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
               placeholder="Interview prep notes, recruiter name, next steps..."
               rows={3}
-              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
+              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
             />
           </div>
 
@@ -350,7 +350,7 @@ export default function TrackerPage() {
             </button>
             <button
               onClick={() => { setShowForm(false); setEditingId(null) }}
-              className="px-4 py-2.5 rounded-lg border border-stone-700 text-stone-400 hover:text-stone-100 text-sm transition-colors"
+              className="px-4 py-2.5 rounded-lg border border-stone-600 text-stone-400 hover:text-stone-100 text-sm transition-colors"
             >
               Cancel
             </button>
@@ -368,7 +368,7 @@ export default function TrackerPage() {
       ) : (
         <div className="space-y-2">
           {filtered.map((app) => (
-            <div key={app.id} className="rounded-xl bg-stone-900/60 border border-stone-700/50 overflow-hidden backdrop-blur-sm">
+            <div key={app.id} className="rounded-xl bg-stone-700/70 border border-stone-600/60 overflow-hidden backdrop-blur-sm">
               <button
                 onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left"
@@ -388,7 +388,7 @@ export default function TrackerPage() {
               </button>
 
               {expandedId === app.id && (
-                <div className="px-4 pb-4 border-t border-stone-700/50 pt-3 space-y-3">
+                <div className="px-4 pb-4 border-t border-stone-600/60 pt-3 space-y-3">
                   {/* Quick status change */}
                   <div>
                     <p className="text-xs text-stone-500 mb-2">Update status</p>
@@ -398,7 +398,7 @@ export default function TrackerPage() {
                           key={s.value}
                           onClick={() => handleStatusChange(app.id, s.value)}
                           className={`text-[10px] font-medium px-2.5 py-1 rounded-full border transition-colors ${
-                            app.status === s.value ? s.color : 'border-stone-700 text-stone-500 hover:text-stone-100'
+                            app.status === s.value ? s.color : 'border-stone-600 text-stone-500 hover:text-stone-100'
                           }`}
                         >
                           {s.label}
@@ -423,7 +423,7 @@ export default function TrackerPage() {
                   </div>
 
                   {app.notes && (
-                    <div className="rounded-lg bg-stone-900 px-3 py-2">
+                    <div className="rounded-lg bg-stone-700 px-3 py-2">
                       <p className="text-stone-400 text-xs whitespace-pre-wrap">{app.notes}</p>
                     </div>
                   )}
