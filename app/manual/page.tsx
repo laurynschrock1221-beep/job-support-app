@@ -283,7 +283,7 @@ export default function ManualPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-stone-500 text-sm">Loading...</div>
+        <div className="text-slate-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -291,14 +291,14 @@ export default function ManualPage() {
   return (
     <div className="px-4 pt-6 pb-4 space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-stone-100">Manual Role Input</h1>
-        <p className="text-stone-500 text-sm mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Manual Role Input</h1>
+        <p className="text-slate-500 text-sm mt-0.5">
           Paste a JD or drop a URL — company, title, and location fill in automatically.
         </p>
       </div>
 
       {noResume && (
-        <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3">
+        <div className="rounded-2xl bg-[#111827]/80 border border-amber-500/30 backdrop-blur-md shadow-lg shadow-black/40 px-4 py-3">
           <p className="text-amber-400 text-sm font-medium">Master resume required</p>
           <p className="text-amber-400/70 text-xs mt-0.5">
             Go to Settings and paste your resume before generating.
@@ -307,15 +307,15 @@ export default function ManualPage() {
       )}
 
       {/* Input form */}
-      <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 p-4 space-y-3 backdrop-blur-sm">
+      <div className="rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40 p-4 space-y-3">
 
         {/* URL field */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-xs text-stone-400">Job URL (optional)</label>
+            <label className="text-xs text-slate-400">Job URL (optional)</label>
             {fetchingUrl && (
-              <span className="text-xs text-amber-400 flex items-center gap-1">
-                <span className="inline-block w-2.5 h-2.5 border border-amber-400 border-t-transparent rounded-full animate-spin" />
+              <span className="text-xs text-violet-400 flex items-center gap-1">
+                <span className="inline-block w-2.5 h-2.5 border border-violet-400 border-t-transparent rounded-full animate-spin" />
                 Fetching...
               </span>
             )}
@@ -325,55 +325,55 @@ export default function ManualPage() {
             onChange={(e) => { setUrl(e.target.value); setFetchError('') }}
             onBlur={handleUrlBlur}
             placeholder="Paste a job posting URL — works for most boards except LinkedIn"
-            className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none"
           />
           {fetchError && <p className="text-amber-400 text-xs mt-1">{fetchError}</p>}
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-px bg-stone-700" />
-          <span className="text-xs text-stone-500">or paste JD below</span>
-          <div className="flex-1 h-px bg-stone-700" />
+          <div className="flex-1 h-px bg-white/5" />
+          <span className="text-xs text-slate-500">or paste JD below</span>
+          <div className="flex-1 h-px bg-white/5" />
         </div>
 
         {/* Metadata fields */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs text-stone-400 mb-1">Company</label>
+            <label className="block text-xs text-slate-400 mb-1">Company</label>
             <input
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder="Auto-detected"
-              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs text-stone-400 mb-1">Title</label>
+            <label className="block text-xs text-slate-400 mb-1">Title</label>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Auto-detected"
-              className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+              className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs text-stone-400 mb-1">Location</label>
+          <label className="block text-xs text-slate-400 mb-1">Location</label>
           <input
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Auto-detected"
-            className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none"
           />
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-xs text-stone-400">Job Description</label>
+            <label className="text-xs text-slate-400">Job Description</label>
             {extracting && (
-              <span className="text-xs text-amber-400 flex items-center gap-1">
-                <span className="inline-block w-2.5 h-2.5 border border-amber-400 border-t-transparent rounded-full animate-spin" />
+              <span className="text-xs text-violet-400 flex items-center gap-1">
+                <span className="inline-block w-2.5 h-2.5 border border-violet-400 border-t-transparent rounded-full animate-spin" />
                 Extracting details...
               </span>
             )}
@@ -384,7 +384,7 @@ export default function ManualPage() {
             onBlur={handleJdBlur}
             placeholder="Paste the full job description here..."
             rows={8}
-            className="w-full bg-stone-700/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
+            className="w-full bg-white/5 border border-white/10 focus:border-violet-500 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none resize-none font-mono"
           />
         </div>
 
@@ -395,14 +395,14 @@ export default function ManualPage() {
           <button
             onClick={handleAddToQueue}
             disabled={isProcessing || generatingAll || noResume}
-            className="bg-stone-700 hover:bg-stone-600 disabled:opacity-50 disabled:cursor-not-allowed text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
+            className="bg-white/10 hover:bg-white/15 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
           >
             Add to Queue
           </button>
           <button
             onClick={handleSubmit}
             disabled={isProcessing || generatingAll || noResume}
-            className="bg-amber-700 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
+            className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-all shadow-lg shadow-violet-900/40"
           >
             {processing === 'scoring' ? 'Scoring...' : processing === 'generating' ? 'Generating...' : 'Generate Now'}
           </button>
@@ -411,9 +411,9 @@ export default function ManualPage() {
 
       {/* Processing indicator */}
       {isProcessing && (
-        <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
-          <div className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin shrink-0" />
-          <p className="text-amber-300 text-sm">
+        <div className="rounded-2xl bg-[#111827]/80 border border-violet-500/30 backdrop-blur-md shadow-lg shadow-violet-900/30 px-4 py-3 flex items-center gap-3">
+          <div className="w-4 h-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin shrink-0" />
+          <p className="text-slate-400 text-sm">
             {processing === 'scoring' ? 'Scoring role against your resume...' : 'Generating tailored draft...'}
           </p>
         </div>
@@ -423,33 +423,33 @@ export default function ManualPage() {
       {queue.length > 0 && (
         <div>
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-medium text-stone-400">Queue ({queue.length})</h2>
+            <h2 className="text-sm font-medium text-slate-400">Queue ({queue.length})</h2>
             <button
               onClick={handleGenerateAll}
               disabled={generatingAll || isProcessing || noResume}
-              className="bg-amber-700 hover:bg-amber-600 disabled:opacity-50 text-stone-100 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
+              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition-all shadow-lg shadow-violet-900/40"
             >
               {generatingAll ? 'Generating...' : `Generate All ${queue.length}`}
             </button>
           </div>
 
           {generatingAllStatus && (
-            <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-3 flex items-center gap-3 mb-2 backdrop-blur-sm">
-              <div className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin shrink-0" />
-              <p className="text-amber-300 text-xs">{generatingAllStatus}</p>
+            <div className="rounded-2xl bg-[#111827]/80 border border-violet-500/30 backdrop-blur-md shadow-lg shadow-violet-900/30 px-4 py-3 flex items-center gap-3 mb-2">
+              <div className="w-4 h-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin shrink-0" />
+              <p className="text-slate-400 text-xs">{generatingAllStatus}</p>
             </div>
           )}
 
           <div className="space-y-2">
             {queue.map((item) => (
-              <div key={item.id} className="rounded-xl bg-stone-700/70 border border-stone-600/60 px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
+              <div key={item.id} className="rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40 px-4 py-3 flex items-center gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="text-stone-100 text-sm font-medium truncate">{item.title}</p>
-                  <p className="text-stone-400 text-xs">{item.company}</p>
+                  <p className="text-white text-sm font-medium truncate">{item.title}</p>
+                  <p className="text-slate-400 text-xs">{item.company}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {item.status === 'processing' && (
-                    <div className="w-3.5 h-3.5 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-3.5 h-3.5 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
                   )}
                   {item.status === 'done' && (
                     <span className="text-xs text-emerald-400">{item.matchPct}%</span>
@@ -460,7 +460,7 @@ export default function ManualPage() {
                   {item.status === 'pending' && (
                     <button
                       onClick={() => handleRemoveFromQueue(item.id)}
-                      className="text-stone-500 hover:text-rose-400 transition-colors"
+                      className="text-slate-500 hover:text-rose-400 transition-colors"
                     >
                       <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                         <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -477,7 +477,7 @@ export default function ManualPage() {
       {/* Previous manual roles */}
       {roles.length > 0 && (
         <div>
-          <h2 className="text-sm font-medium text-stone-400 mb-2">History</h2>
+          <h2 className="text-sm font-medium text-slate-400 mb-2">History</h2>
           <div className="space-y-2">
             {roles.map((role) => (
               <ManualRoleCard
@@ -514,11 +514,11 @@ function ManualRoleCard({
   }
 
   return (
-    <div className="rounded-xl bg-stone-700/70 border border-stone-600/60 overflow-hidden backdrop-blur-sm">
+    <div className="rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40 overflow-hidden">
       <button onClick={onToggle} className="w-full flex items-center justify-between px-4 py-3 text-left">
         <div className="min-w-0 flex-1">
-          <p className="text-stone-100 text-sm font-medium truncate">{role.title}</p>
-          <p className="text-stone-400 text-xs">{role.company}</p>
+          <p className="text-white text-sm font-medium truncate">{role.title}</p>
+          <p className="text-slate-400 text-xs">{role.company}</p>
         </div>
         <span className={`ml-3 text-xs font-medium shrink-0 ${statusColors[role.status]}`}>
           {role.status}
@@ -526,23 +526,23 @@ function ManualRoleCard({
       </button>
 
       {expanded && (
-        <div className="px-4 pb-4 border-t border-stone-600/60 pt-3 space-y-3">
-          {role.location && <p className="text-stone-400 text-xs">{role.location}</p>}
+        <div className="px-4 pb-4 border-t border-white/5 pt-3 space-y-3">
+          {role.location && <p className="text-slate-400 text-xs">{role.location}</p>}
           {role.error_msg && <p className="text-rose-400 text-xs">{role.error_msg}</p>}
-          <p className="text-stone-500 text-xs">
+          <p className="text-slate-500 text-xs">
             Submitted {new Date(role.created_at).toLocaleString()}
           </p>
           <div className="flex gap-2">
             <button
               onClick={onDelete}
-              className="text-xs text-rose-400 hover:text-rose-300 border border-rose-500/30 px-3 py-1.5 rounded-lg transition-colors"
+              className="text-xs bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-400 px-3 py-1.5 rounded-lg transition-colors"
             >
               Delete
             </button>
             {role.status === 'generated' && (
               <a
                 href="/drafts"
-                className="text-xs text-amber-400 hover:text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-lg transition-colors"
+                className="text-xs text-violet-400 hover:text-violet-300 border border-violet-500/30 px-3 py-1.5 rounded-lg transition-colors"
               >
                 View Draft
               </a>

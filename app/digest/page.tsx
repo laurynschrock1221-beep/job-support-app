@@ -6,12 +6,12 @@ import type { ApplicationEntry, ApplicationStatus, ProcessedState } from '@/lib/
 
 const STATUS_META: Record<ApplicationStatus, { label: string; color: string; emoji: string }> = {
   applied:           { label: 'Applied',             color: 'text-sky-400',     emoji: '📤' },
-  no_response:       { label: 'No Response',         color: 'text-stone-400',   emoji: '👻' },
+  no_response:       { label: 'No Response',         color: 'text-slate-400',   emoji: '👻' },
   invited_interview: { label: 'Phone / Interview',   color: 'text-amber-400',   emoji: '📞' },
   interviewing:      { label: 'Interviewing',        color: 'text-amber-300',   emoji: '🎙️' },
   offer:             { label: 'Offer',               color: 'text-emerald-400', emoji: '🎉' },
   rejected:          { label: 'Rejected',            color: 'text-rose-400',    emoji: '❌' },
-  withdrawn:         { label: 'Withdrawn',           color: 'text-stone-500',   emoji: '↩️' },
+  withdrawn:         { label: 'Withdrawn',           color: 'text-slate-500',   emoji: '↩️' },
 }
 
 export default function MetricsPage() {
@@ -30,7 +30,7 @@ export default function MetricsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-stone-500 text-sm">Loading...</div>
+        <div className="text-slate-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -101,14 +101,14 @@ export default function MetricsPage() {
   return (
     <div className="px-4 pt-6 pb-24 space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-stone-100">Metrics</h1>
-        <p className="text-stone-500 text-sm mt-0.5">{total} application{total !== 1 ? 's' : ''} tracked</p>
+        <h1 className="text-xl font-semibold text-white">Metrics</h1>
+        <p className="text-slate-500 text-sm mt-0.5">{total} application{total !== 1 ? 's' : ''} tracked</p>
       </div>
 
       {total === 0 ? (
         <div className="text-center py-16">
-          <p className="text-stone-500 text-sm">No applications tracked yet.</p>
-          <p className="text-stone-500 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
+          <p className="text-slate-500 text-sm">No applications tracked yet.</p>
+          <p className="text-slate-500 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
         </div>
       ) : (
         <>
@@ -120,10 +120,10 @@ export default function MetricsPage() {
                 .map(([status, n]) => {
                   const meta = STATUS_META[status]
                   return (
-                    <div key={status} className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
-                      <p className="text-stone-400 text-[10px] mb-0.5">{meta.emoji} {meta.label}</p>
+                    <div key={status} className="rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40 px-3 py-2.5">
+                      <p className="text-slate-400 text-[10px] mb-0.5">{meta.emoji} {meta.label}</p>
                       <p className={`text-2xl font-bold ${meta.color}`}>{n}</p>
-                      <p className="text-stone-500 text-[10px]">{Math.round((n / total) * 100)}% of total</p>
+                      <p className="text-slate-500 text-[10px]">{Math.round((n / total) * 100)}% of total</p>
                     </div>
                   )
                 })}
@@ -147,17 +147,17 @@ export default function MetricsPage() {
                   <div key={type} className="flex items-center gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-stone-300 truncate">{type}</span>
-                        <span className="text-stone-500 ml-2 shrink-0">{data.applied} applied · {data.responded} response{data.responded !== 1 ? 's' : ''}</span>
+                        <span className="text-slate-400 truncate">{type}</span>
+                        <span className="text-slate-500 ml-2 shrink-0">{data.applied} applied · {data.responded} response{data.responded !== 1 ? 's' : ''}</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-stone-700 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-amber-500"
+                          className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500"
                           style={{ width: `${data.applied > 0 ? Math.round((data.responded / data.applied) * 100) : 0}%` }}
                         />
                       </div>
                     </div>
-                    <span className="text-xs text-amber-400 w-8 text-right shrink-0">
+                    <span className="text-xs text-violet-400 w-8 text-right shrink-0">
                       {data.applied > 0 ? Math.round((data.responded / data.applied) * 100) : 0}%
                     </span>
                   </div>
@@ -169,23 +169,23 @@ export default function MetricsPage() {
           {/* Match score by role type */}
           {matchByTypeEntries.length > 0 && (
             <Section title="Avg Match Score by Role Type">
-              <p className="text-stone-500 text-xs mb-2">Based on all generated drafts — higher avg = stronger natural fit</p>
+              <p className="text-slate-500 text-xs mb-2">Based on all generated drafts — higher avg = stronger natural fit</p>
               <div className="space-y-2">
                 {matchByTypeEntries.map(({ type, avg, count, high }) => (
                   <div key={type} className="flex items-center gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-stone-300 truncate">{type}</span>
-                        <span className="text-stone-500 ml-2 shrink-0">{count} draft{count !== 1 ? 's' : ''} · {high} ≥70%</span>
+                        <span className="text-slate-400 truncate">{type}</span>
+                        <span className="text-slate-500 ml-2 shrink-0">{count} draft{count !== 1 ? 's' : ''} · {high} ≥70%</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-stone-700 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                         <div
-                          className={`h-full rounded-full ${avg >= 70 ? 'bg-emerald-500' : avg >= 55 ? 'bg-amber-500' : 'bg-stone-500'}`}
+                          className={`h-full rounded-full ${avg >= 70 ? 'bg-gradient-to-r from-emerald-500 to-teal-500' : avg >= 55 ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-white/20'}`}
                           style={{ width: `${avg}%` }}
                         />
                       </div>
                     </div>
-                    <span className={`text-xs w-8 text-right shrink-0 font-medium ${avg >= 70 ? 'text-emerald-400' : avg >= 55 ? 'text-amber-400' : 'text-stone-400'}`}>
+                    <span className={`text-xs w-8 text-right shrink-0 font-medium ${avg >= 70 ? 'text-emerald-400' : avg >= 55 ? 'text-amber-400' : 'text-slate-400'}`}>
                       {avg}%
                     </span>
                   </div>
@@ -199,13 +199,15 @@ export default function MetricsPage() {
             <Section title="Match Score Correlation">
               {avgMatchAll !== null && (
                 <div className="grid grid-cols-2 gap-2 mb-3">
-                  <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
-                    <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (all)</p>
-                    <p className="text-2xl font-bold text-stone-200">{avgMatchAll}%</p>
+                  <div className="rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40 px-3 py-2.5">
+                    <p className="text-slate-400 text-[10px] mb-0.5">Avg Match (all)</p>
+                    <p className="text-2xl font-bold">
+                      <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">{avgMatchAll}%</span>
+                    </p>
                   </div>
                   {avgMatchResponded !== null && (
-                    <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 backdrop-blur-sm">
-                      <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (callbacks)</p>
+                    <div className="rounded-2xl bg-[#111827]/80 border border-emerald-500/20 backdrop-blur-md shadow-lg shadow-emerald-900/20 px-3 py-2.5">
+                      <p className="text-slate-400 text-[10px] mb-0.5">Avg Match (callbacks)</p>
                       <p className="text-2xl font-bold text-emerald-400">{avgMatchResponded}%</p>
                     </div>
                   )}
@@ -216,9 +218,9 @@ export default function MetricsPage() {
                   const meta = STATUS_META[a.status]
                   return (
                     <div key={i} className="flex items-center gap-2 text-xs">
-                      <span className="w-8 text-right text-stone-400 shrink-0">{a.match_pct}%</span>
+                      <span className="w-8 text-right text-slate-400 shrink-0">{a.match_pct}%</span>
                       <div className="flex-1 min-w-0">
-                        <span className="text-stone-300 truncate block">{a.title} · {a.company}</span>
+                        <span className="text-slate-400 truncate block">{a.title} · {a.company}</span>
                       </div>
                       <span className={`shrink-0 ${meta.color}`}>{meta.emoji}</span>
                     </div>
@@ -236,7 +238,7 @@ export default function MetricsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-2">
-      <p className="text-xs font-medium text-stone-500 uppercase tracking-wider">{title}</p>
+      <p className="text-slate-500 uppercase tracking-wider text-xs font-medium">{title}</p>
       {children}
     </div>
   )
@@ -244,11 +246,12 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function RateCard({ label, value, color, hint }: { label: string; value: number; color: 'amber' | 'yellow' | 'rose'; hint: string }) {
   const colorMap = { amber: 'text-amber-400', yellow: 'text-amber-300', rose: 'text-rose-400' }
+  const glowMap = { amber: 'shadow-amber-900/20', yellow: 'shadow-amber-900/20', rose: 'shadow-rose-900/20' }
   return (
-    <div className="rounded-xl bg-stone-800/70 border border-stone-600/60 px-3 py-2.5 text-center backdrop-blur-sm">
+    <div className={`rounded-2xl bg-[#111827]/80 border border-white/10 backdrop-blur-md shadow-lg ${glowMap[color]} px-3 py-2.5 text-center`}>
       <p className={`text-xl font-bold ${colorMap[color]}`}>{value}%</p>
-      <p className="text-stone-300 text-[10px] mt-0.5">{label}</p>
-      <p className="text-stone-500 text-[9px]">{hint}</p>
+      <p className="text-slate-400 text-[10px] mt-0.5">{label}</p>
+      <p className="text-slate-500 text-[9px]">{hint}</p>
     </div>
   )
 }

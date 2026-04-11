@@ -7,8 +7,8 @@
 }
 
 :root {
-  --background: #292522;
-  --foreground: #f5f0eb;
+  --background: #0a0e1a;
+  --foreground: #ffffff;
 }
 
 * {
@@ -33,6 +33,6 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #44403c;
+  background: #1e293b;
   border-radius: 2px;
 }
