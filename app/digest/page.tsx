@@ -5,13 +5,13 @@ import { getApplications, getProcessedStatesByStatus } from '@/lib/storage'
 import type { ApplicationEntry, ApplicationStatus, ProcessedState } from '@/lib/types'
 
 const STATUS_META: Record<ApplicationStatus, { label: string; color: string; emoji: string }> = {
-  applied:           { label: 'Applied',             color: 'text-blue-400',    emoji: '📤' },
-  no_response:       { label: 'No Response',         color: 'text-slate-400',   emoji: '👻' },
-  invited_interview: { label: 'Phone / Interview',   color: 'text-indigo-400',  emoji: '📞' },
-  interviewing:      { label: 'Interviewing',        color: 'text-yellow-400',  emoji: '🎙️' },
+  applied:           { label: 'Applied',             color: 'text-sky-400',     emoji: '📤' },
+  no_response:       { label: 'No Response',         color: 'text-stone-400',   emoji: '👻' },
+  invited_interview: { label: 'Phone / Interview',   color: 'text-amber-400',   emoji: '📞' },
+  interviewing:      { label: 'Interviewing',        color: 'text-amber-300',   emoji: '🎙️' },
   offer:             { label: 'Offer',               color: 'text-emerald-400', emoji: '🎉' },
-  rejected:          { label: 'Rejected',            color: 'text-red-400',     emoji: '❌' },
-  withdrawn:         { label: 'Withdrawn',           color: 'text-slate-500',   emoji: '↩️' },
+  rejected:          { label: 'Rejected',            color: 'text-rose-400',    emoji: '❌' },
+  withdrawn:         { label: 'Withdrawn',           color: 'text-stone-500',   emoji: '↩️' },
 }
 
 export default function MetricsPage() {
@@ -30,7 +30,7 @@ export default function MetricsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-500 text-sm">Loading...</div>
+        <div className="text-stone-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -101,14 +101,14 @@ export default function MetricsPage() {
   return (
     <div className="px-4 pt-6 pb-24 space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-white">Metrics</h1>
-        <p className="text-slate-500 text-sm mt-0.5">{total} application{total !== 1 ? 's' : ''} tracked</p>
+        <h1 className="text-xl font-semibold text-stone-100">Metrics</h1>
+        <p className="text-stone-500 text-sm mt-0.5">{total} application{total !== 1 ? 's' : ''} tracked</p>
       </div>
 
       {total === 0 ? (
         <div className="text-center py-16">
-          <p className="text-slate-500 text-sm">No applications tracked yet.</p>
-          <p className="text-slate-600 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
+          <p className="text-stone-500 text-sm">No applications tracked yet.</p>
+          <p className="text-stone-600 text-xs mt-1">Add applications in the Tracker tab to see your metrics.</p>
         </div>
       ) : (
         <>
@@ -120,10 +120,10 @@ export default function MetricsPage() {
                 .map(([status, n]) => {
                   const meta = STATUS_META[status]
                   return (
-                    <div key={status} className="rounded-xl bg-slate-800/60 border border-slate-700 px-3 py-2.5">
-                      <p className="text-slate-400 text-[10px] mb-0.5">{meta.emoji} {meta.label}</p>
+                    <div key={status} className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                      <p className="text-stone-400 text-[10px] mb-0.5">{meta.emoji} {meta.label}</p>
                       <p className={`text-2xl font-bold ${meta.color}`}>{n}</p>
-                      <p className="text-slate-500 text-[10px]">{Math.round((n / total) * 100)}% of total</p>
+                      <p className="text-stone-500 text-[10px]">{Math.round((n / total) * 100)}% of total</p>
                     </div>
                   )
                 })}
@@ -133,9 +133,9 @@ export default function MetricsPage() {
           {/* Rates */}
           <Section title="Response Rates">
             <div className="grid grid-cols-3 gap-2">
-              <RateCard label="Response Rate" value={responseRate} color="indigo" hint="any reply" />
+              <RateCard label="Response Rate" value={responseRate} color="amber" hint="any reply" />
               <RateCard label="Interview Rate" value={interviewRate} color="yellow" hint="got interview" />
-              <RateCard label="Ghost Rate" value={ghostRate} color="red" hint="no reply" />
+              <RateCard label="Ghost Rate" value={ghostRate} color="rose" hint="no reply" />
             </div>
           </Section>
 
@@ -147,17 +147,17 @@ export default function MetricsPage() {
                   <div key={type} className="flex items-center gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-slate-300 truncate">{type}</span>
-                        <span className="text-slate-500 ml-2 shrink-0">{data.applied} applied · {data.responded} response{data.responded !== 1 ? 's' : ''}</span>
+                        <span className="text-stone-300 truncate">{type}</span>
+                        <span className="text-stone-500 ml-2 shrink-0">{data.applied} applied · {data.responded} response{data.responded !== 1 ? 's' : ''}</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-stone-700 overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-indigo-500"
+                          className="h-full rounded-full bg-amber-500"
                           style={{ width: `${data.applied > 0 ? Math.round((data.responded / data.applied) * 100) : 0}%` }}
                         />
                       </div>
                     </div>
-                    <span className="text-xs text-indigo-400 w-8 text-right shrink-0">
+                    <span className="text-xs text-amber-400 w-8 text-right shrink-0">
                       {data.applied > 0 ? Math.round((data.responded / data.applied) * 100) : 0}%
                     </span>
                   </div>
@@ -169,23 +169,23 @@ export default function MetricsPage() {
           {/* Match score by role type */}
           {matchByTypeEntries.length > 0 && (
             <Section title="Avg Match Score by Role Type">
-              <p className="text-slate-500 text-xs mb-2">Based on all generated drafts — higher avg = stronger natural fit</p>
+              <p className="text-stone-500 text-xs mb-2">Based on all generated drafts — higher avg = stronger natural fit</p>
               <div className="space-y-2">
                 {matchByTypeEntries.map(({ type, avg, count, high }) => (
                   <div key={type} className="flex items-center gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-slate-300 truncate">{type}</span>
-                        <span className="text-slate-500 ml-2 shrink-0">{count} draft{count !== 1 ? 's' : ''} · {high} ≥70%</span>
+                        <span className="text-stone-300 truncate">{type}</span>
+                        <span className="text-stone-500 ml-2 shrink-0">{count} draft{count !== 1 ? 's' : ''} · {high} ≥70%</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-stone-700 overflow-hidden">
                         <div
-                          className={`h-full rounded-full ${avg >= 70 ? 'bg-emerald-500' : avg >= 55 ? 'bg-indigo-500' : 'bg-slate-500'}`}
+                          className={`h-full rounded-full ${avg >= 70 ? 'bg-emerald-500' : avg >= 55 ? 'bg-amber-500' : 'bg-stone-500'}`}
                           style={{ width: `${avg}%` }}
                         />
                       </div>
                     </div>
-                    <span className={`text-xs w-8 text-right shrink-0 font-medium ${avg >= 70 ? 'text-emerald-400' : avg >= 55 ? 'text-indigo-400' : 'text-slate-400'}`}>
+                    <span className={`text-xs w-8 text-right shrink-0 font-medium ${avg >= 70 ? 'text-emerald-400' : avg >= 55 ? 'text-amber-400' : 'text-stone-400'}`}>
                       {avg}%
                     </span>
                   </div>
@@ -199,13 +199,13 @@ export default function MetricsPage() {
             <Section title="Match Score Correlation">
               {avgMatchAll !== null && (
                 <div className="grid grid-cols-2 gap-2 mb-3">
-                  <div className="rounded-xl bg-slate-800/60 border border-slate-700 px-3 py-2.5">
-                    <p className="text-slate-400 text-[10px] mb-0.5">Avg Match (all)</p>
-                    <p className="text-2xl font-bold text-slate-200">{avgMatchAll}%</p>
+                  <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                    <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (all)</p>
+                    <p className="text-2xl font-bold text-stone-200">{avgMatchAll}%</p>
                   </div>
                   {avgMatchResponded !== null && (
-                    <div className="rounded-xl bg-slate-800/60 border border-slate-700 px-3 py-2.5">
-                      <p className="text-slate-400 text-[10px] mb-0.5">Avg Match (callbacks)</p>
+                    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 backdrop-blur-sm">
+                      <p className="text-stone-400 text-[10px] mb-0.5">Avg Match (callbacks)</p>
                       <p className="text-2xl font-bold text-emerald-400">{avgMatchResponded}%</p>
                     </div>
                   )}
@@ -216,9 +216,9 @@ export default function MetricsPage() {
                   const meta = STATUS_META[a.status]
                   return (
                     <div key={i} className="flex items-center gap-2 text-xs">
-                      <span className="w-8 text-right text-slate-400 shrink-0">{a.match_pct}%</span>
+                      <span className="w-8 text-right text-stone-400 shrink-0">{a.match_pct}%</span>
                       <div className="flex-1 min-w-0">
-                        <span className="text-slate-300 truncate block">{a.title} · {a.company}</span>
+                        <span className="text-stone-300 truncate block">{a.title} · {a.company}</span>
                       </div>
                       <span className={`shrink-0 ${meta.color}`}>{meta.emoji}</span>
                     </div>
@@ -236,19 +236,19 @@ export default function MetricsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-2">
-      <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{title}</p>
+      <p className="text-xs font-medium text-stone-500 uppercase tracking-wider">{title}</p>
       {children}
     </div>
   )
 }
 
-function RateCard({ label, value, color, hint }: { label: string; value: number; color: 'indigo' | 'yellow' | 'red'; hint: string }) {
-  const colorMap = { indigo: 'text-indigo-400', yellow: 'text-yellow-400', red: 'text-red-400' }
+function RateCard({ label, value, color, hint }: { label: string; value: number; color: 'amber' | 'yellow' | 'rose'; hint: string }) {
+  const colorMap = { amber: 'text-amber-400', yellow: 'text-amber-300', rose: 'text-rose-400' }
   return (
-    <div className="rounded-xl bg-slate-800/60 border border-slate-700 px-3 py-2.5 text-center">
+    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-3 py-2.5 text-center backdrop-blur-sm">
       <p className={`text-xl font-bold ${colorMap[color]}`}>{value}%</p>
-      <p className="text-slate-300 text-[10px] mt-0.5">{label}</p>
-      <p className="text-slate-600 text-[9px]">{hint}</p>
+      <p className="text-stone-300 text-[10px] mt-0.5">{label}</p>
+      <p className="text-stone-600 text-[9px]">{hint}</p>
     </div>
   )
 }

@@ -15,9 +15,9 @@ import type { ProcessedState, DailyCount, UserSettings, ApplicationEntry } from 
 
 const STATUS_COLORS: Record<string, string> = {
   generated: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
-  scored: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
-  dropped: 'bg-red-500/20 text-red-400 border border-red-500/30',
-  needs_jd: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+  scored: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
+  dropped: 'bg-rose-500/20 text-rose-400 border border-rose-500/30',
+  needs_jd: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
 }
 
 function buildRecommendation(
@@ -103,7 +103,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-500 text-sm">Loading...</div>
+        <div className="text-stone-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -111,8 +111,8 @@ export default function DashboardPage() {
   return (
     <div className="px-4 pt-6 pb-4 space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-white">Today&apos;s Run</h1>
-        <p className="text-slate-500 text-sm mt-0.5">
+        <h1 className="text-xl font-semibold text-stone-100">Today&apos;s Run</h1>
+        <p className="text-stone-500 text-sm mt-0.5">
           {new Date().toLocaleDateString('en-US', {
             weekday: 'long',
             month: 'long',
@@ -133,8 +133,8 @@ export default function DashboardPage() {
         </Link>
       )}
 
-      <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 px-4 py-3">
-        <p className="text-indigo-300 text-sm leading-relaxed">{recommendation}</p>
+      <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-3 backdrop-blur-sm">
+        <p className="text-amber-300 text-sm leading-relaxed">{recommendation}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -143,15 +143,15 @@ export default function DashboardPage() {
       </div>
 
       <div>
-        <div className="flex justify-between text-xs text-slate-500 mb-1.5">
+        <div className="flex justify-between text-xs text-stone-500 mb-1.5">
           <span>Daily cap</span>
           <span>
             {gen} / {cap}
           </span>
         </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-stone-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-indigo-500 rounded-full transition-all"
+            className="h-full bg-amber-500 rounded-full transition-all"
             style={{ width: `${Math.min(100, (gen / cap) * 100)}%` }}
           />
         </div>
@@ -160,18 +160,18 @@ export default function DashboardPage() {
       {pendingManual > 0 && (
         <Link
           href="/manual"
-          className="flex items-center justify-between rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3"
+          className="flex items-center justify-between rounded-xl bg-stone-800/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm"
         >
           <div>
-            <p className="text-white text-sm font-medium">
+            <p className="text-stone-100 text-sm font-medium">
               {pendingManual} manual role(s) pending
             </p>
-            <p className="text-slate-400 text-xs mt-0.5">Tap to process in Manual tab</p>
+            <p className="text-stone-400 text-xs mt-0.5">Tap to process in Manual tab</p>
           </div>
           <svg
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="w-4 h-4 text-slate-400 shrink-0"
+            className="w-4 h-4 text-stone-400 shrink-0"
           >
             <path
               fillRule="evenodd"
@@ -184,7 +184,7 @@ export default function DashboardPage() {
 
       {todayStates.length > 0 && (
         <div>
-          <h2 className="text-sm font-medium text-slate-400 mb-2">Today&apos;s Candidates</h2>
+          <h2 className="text-sm font-medium text-stone-400 mb-2">Today&apos;s Candidates</h2>
           <div className="space-y-2">
             {todayStates.slice(0, 6).map((role) => (
               <RoleRow key={role.id} role={role} />
@@ -193,7 +193,7 @@ export default function DashboardPage() {
           {todayStates.length > 6 && (
             <Link
               href="/candidates"
-              className="block text-center text-xs text-indigo-400 mt-2 py-1"
+              className="block text-center text-xs text-amber-400 mt-2 py-1"
             >
               View all {todayStates.length} candidates
             </Link>
@@ -203,16 +203,16 @@ export default function DashboardPage() {
 
       {followUpsDue.length > 0 && (
         <div>
-          <h2 className="text-sm font-medium text-slate-400 mb-2">Follow-ups Due</h2>
+          <h2 className="text-sm font-medium text-stone-400 mb-2">Follow-ups Due</h2>
           <div className="space-y-2">
             {followUpsDue.map((app) => (
               <div
                 key={app.id}
-                className="rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 flex items-center gap-3"
+                className="rounded-xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="text-white text-sm font-medium truncate">{app.title}</p>
-                  <p className="text-slate-400 text-xs truncate">{app.company}</p>
+                  <p className="text-stone-100 text-sm font-medium truncate">{app.title}</p>
+                  <p className="text-stone-400 text-xs truncate">{app.company}</p>
                 </div>
                 <span className="text-amber-400 text-xs font-medium shrink-0">{app.follow_up_date}</span>
               </div>
@@ -223,17 +223,17 @@ export default function DashboardPage() {
 
       {recentGenerated.length > 0 && (
         <div>
-          <h2 className="text-sm font-medium text-slate-400 mb-2">Recent Drafts</h2>
+          <h2 className="text-sm font-medium text-stone-400 mb-2">Recent Drafts</h2>
           <div className="space-y-2">
             {recentGenerated.map((role) => (
               <Link
                 key={role.id}
                 href="/drafts"
-                className="flex items-center justify-between rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3"
+                className="flex items-center justify-between rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="text-white text-sm font-medium truncate">{role.title}</p>
-                  <p className="text-slate-400 text-xs truncate">{role.company}</p>
+                  <p className="text-stone-100 text-sm font-medium truncate">{role.title}</p>
+                  <p className="text-stone-400 text-xs truncate">{role.company}</p>
                 </div>
                 {role.match_pct !== undefined && (
                   <span className="ml-3 text-xs text-emerald-400 font-medium shrink-0">
@@ -249,13 +249,13 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 gap-3 pt-1">
         <Link
           href="/manual"
-          className="rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium text-center py-3 transition-colors"
+          className="rounded-xl bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-medium text-center py-3 transition-colors"
         >
           Paste a JD
         </Link>
         <Link
           href="/drafts"
-          className="rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium text-center py-3 transition-colors border border-slate-700"
+          className="rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-100 text-sm font-medium text-center py-3 transition-colors border border-stone-700"
         >
           View Drafts
         </Link>
@@ -277,17 +277,17 @@ function StatCard({
 }) {
   const colorMap = {
     emerald: 'text-emerald-400',
-    red: 'text-red-400',
-    blue: 'text-blue-400',
-    yellow: 'text-yellow-400',
+    red: 'text-rose-400',
+    blue: 'text-sky-400',
+    yellow: 'text-amber-400',
   }
   return (
-    <div className="rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3">
-      <p className="text-slate-400 text-xs">{label}</p>
+    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 backdrop-blur-sm">
+      <p className="text-stone-400 text-xs">{label}</p>
       <p className={`text-2xl font-bold mt-1 ${colorMap[color]}`}>
         {value}
         {max !== undefined && (
-          <span className="text-slate-500 text-sm font-normal"> / {max}</span>
+          <span className="text-stone-500 text-sm font-normal"> / {max}</span>
         )}
       </p>
     </div>
@@ -296,13 +296,13 @@ function StatCard({
 
 function RoleRow({ role }: { role: ProcessedState }) {
   return (
-    <div className="rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3 flex items-center gap-3">
+    <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
       <div className="min-w-0 flex-1">
-        <p className="text-white text-sm font-medium truncate">{role.title}</p>
-        <p className="text-slate-400 text-xs truncate">{role.company}</p>
+        <p className="text-stone-100 text-sm font-medium truncate">{role.title}</p>
+        <p className="text-stone-400 text-xs truncate">{role.company}</p>
       </div>
       <span
-        className={`text-[10px] font-medium px-2 py-0.5 rounded-full shrink-0 ${STATUS_COLORS[role.status] ?? 'bg-slate-700 text-slate-400'}`}
+        className={`text-[10px] font-medium px-2 py-0.5 rounded-full shrink-0 ${STATUS_COLORS[role.status] ?? 'bg-stone-700 text-stone-400'}`}
       >
         {role.status.replace('_', ' ')}
       </span>

@@ -178,7 +178,7 @@ export default function DraftsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-500 text-sm">Loading...</div>
+        <div className="text-stone-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -186,16 +186,16 @@ export default function DraftsPage() {
   return (
     <div className="px-4 pt-6 pb-4 space-y-4">
       <div>
-        <h1 className="text-xl font-semibold text-white">Generated Drafts</h1>
-        <p className="text-slate-500 text-sm mt-0.5">
+        <h1 className="text-xl font-semibold text-stone-100">Generated Drafts</h1>
+        <p className="text-stone-500 text-sm mt-0.5">
           {drafts.length} draft{drafts.length !== 1 ? 's' : ''} generated
         </p>
       </div>
 
       {drafts.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-slate-500 text-sm">No drafts yet.</p>
-          <p className="text-slate-600 text-xs mt-1">
+          <p className="text-stone-500 text-sm">No drafts yet.</p>
+          <p className="text-stone-600 text-xs mt-1">
             Paste a job description in the Manual tab to generate your first draft.
           </p>
         </div>
@@ -204,7 +204,7 @@ export default function DraftsPage() {
         <div className="space-y-4">
           <button
             onClick={() => setSelected(null)}
-            className="flex items-center gap-1.5 text-sm text-indigo-400 hover:text-indigo-300"
+            className="flex items-center gap-1.5 text-sm text-amber-400 hover:text-amber-300"
           >
             <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
               <path
@@ -216,12 +216,12 @@ export default function DraftsPage() {
             Back to list
           </button>
 
-          <div className="rounded-xl bg-slate-800/60 border border-slate-700 p-4 space-y-3">
+          <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 p-4 space-y-3 backdrop-blur-sm">
             <div>
-              <p className="text-white font-medium">{selected.title}</p>
-              <p className="text-slate-400 text-sm">{selected.company}</p>
+              <p className="text-stone-100 font-medium">{selected.title}</p>
+              <p className="text-stone-400 text-sm">{selected.company}</p>
               {selected.location && (
-                <p className="text-slate-500 text-xs">{selected.location}</p>
+                <p className="text-stone-500 text-xs">{selected.location}</p>
               )}
             </div>
 
@@ -229,9 +229,9 @@ export default function DraftsPage() {
               {selected.match_pct !== undefined && (
                 <span className="text-emerald-400 font-medium">{selected.match_pct}% match</span>
               )}
-              <span className="text-slate-500">{selected.last_seen}</span>
+              <span className="text-stone-500">{selected.last_seen}</span>
               {selected.is_manual && (
-                <span className="text-indigo-400 border border-indigo-500/40 px-1.5 py-0.5 rounded-full">
+                <span className="text-amber-400 border border-amber-500/40 px-1.5 py-0.5 rounded-full">
                   manual
                 </span>
               )}
@@ -255,29 +255,29 @@ export default function DraftsPage() {
             <button
               onClick={() => handleRegenerate(selected)}
               disabled={regenerating}
-              className="w-full border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full border border-stone-600 hover:border-stone-400 text-stone-300 hover:text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50"
             >
               {regenerating ? 'Regenerating...' : '↺ Regenerate Resume'}
             </button>
-            {regenError && <p className="text-red-400 text-xs">{regenError}</p>}
+            {regenError && <p className="text-rose-400 text-xs">{regenError}</p>}
 
             {selected.integrity_notes && (
-              <div className="rounded-lg bg-slate-900 px-3 py-2">
-                <p className="text-xs text-slate-400">{selected.integrity_notes}</p>
+              <div className="rounded-lg bg-stone-900 px-3 py-2">
+                <p className="text-xs text-stone-400">{selected.integrity_notes}</p>
               </div>
             )}
 
             {/* Tab switcher */}
-            <div className="flex rounded-lg bg-slate-900 p-1 gap-1">
+            <div className="flex rounded-lg bg-stone-900 p-1 gap-1">
               <button
                 onClick={() => setActiveTab('resume')}
-                className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${activeTab === 'resume' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${activeTab === 'resume' ? 'bg-amber-700 text-stone-100' : 'text-stone-400 hover:text-stone-100'}`}
               >
                 Resume
               </button>
               <button
                 onClick={() => setActiveTab('cover_letter')}
-                className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${activeTab === 'cover_letter' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${activeTab === 'cover_letter' ? 'bg-amber-700 text-stone-100' : 'text-stone-400 hover:text-stone-100'}`}
               >
                 Cover Letter {selected.cover_letter_text ? '' : '(not yet generated)'}
               </button>
@@ -288,13 +288,13 @@ export default function DraftsPage() {
                 <>
                   <button
                     onClick={() => window.open(`/resume-preview/${selected.id}`, '_blank')}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                    className="flex-1 bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
                   >
                     Preview &amp; Export PDF
                   </button>
                   <button
                     onClick={() => handleCopy(selected.resume_text ?? '')}
-                    className="px-3 py-2.5 rounded-lg border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm transition-colors"
+                    className="px-3 py-2.5 rounded-lg border border-stone-600 hover:border-stone-400 text-stone-300 hover:text-stone-100 text-sm transition-colors"
                   >
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
@@ -303,20 +303,20 @@ export default function DraftsPage() {
                 <>
                   <button
                     onClick={() => window.open(`/cover-letter-preview/${selected.id}`, '_blank')}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                    className="flex-1 bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
                   >
                     Preview &amp; Export PDF
                   </button>
                   <button
                     onClick={() => handleCopyCL(selected.cover_letter_text ?? '')}
-                    className="px-3 py-2.5 rounded-lg border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm transition-colors"
+                    className="px-3 py-2.5 rounded-lg border border-stone-600 hover:border-stone-400 text-stone-300 hover:text-stone-100 text-sm transition-colors"
                   >
                     {copiedCL ? 'Copied!' : 'Copy'}
                   </button>
                   <button
                     onClick={() => handleGenerateCoverLetter(selected)}
                     disabled={generatingCL}
-                    className="px-3 py-2.5 rounded-lg border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white text-sm transition-colors disabled:opacity-50"
+                    className="px-3 py-2.5 rounded-lg border border-stone-600 hover:border-stone-400 text-stone-300 hover:text-stone-100 text-sm transition-colors disabled:opacity-50"
                     title="Regenerate Cover Letter"
                   >
                     {generatingCL ? '...' : '↺'}
@@ -327,47 +327,47 @@ export default function DraftsPage() {
                 <button
                   onClick={() => handleGenerateCoverLetter(selected)}
                   disabled={generatingCL}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                  className="flex-1 bg-amber-700 hover:bg-amber-600 disabled:opacity-50 text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
                 >
                   {generatingCL ? 'Generating...' : 'Generate Cover Letter'}
                 </button>
               )}
-              {clError && <p className="text-red-400 text-xs mt-1">{clError}</p>}
+              {clError && <p className="text-rose-400 text-xs mt-1">{clError}</p>}
               {!confirmDelete ? (
                 <button
                   onClick={() => setConfirmDelete(true)}
-                  className="px-3 py-2.5 rounded-lg border border-red-500/30 text-red-400 hover:text-red-300 text-sm transition-colors"
+                  className="px-3 py-2.5 rounded-lg border border-rose-500/30 text-rose-400 hover:text-rose-300 text-sm transition-colors"
                 >
                   Delete
                 </button>
               ) : (
                 <button
                   onClick={() => handleDelete(selected.id)}
-                  className="px-3 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium transition-colors"
+                  className="px-3 py-2.5 rounded-lg bg-rose-700 hover:bg-rose-600 text-stone-100 text-sm font-medium transition-colors"
                 >
                   Confirm
                 </button>
               )}
             </div>
 
-            <p className="text-slate-500 text-xs">
+            <p className="text-stone-500 text-xs">
               File: {selected.output_file}
             </p>
           </div>
 
           {/* Content preview */}
           {activeTab === 'resume' && selected.resume_text && (
-            <div className="rounded-xl bg-slate-900 border border-slate-700 p-4">
-              <p className="text-xs text-slate-500 mb-3 font-medium uppercase tracking-wide">Resume Preview</p>
-              <pre className="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap font-mono overflow-auto max-h-[60vh]">
+            <div className="rounded-xl bg-stone-900 border border-stone-700/50 p-4 backdrop-blur-sm">
+              <p className="text-xs text-stone-500 mb-3 font-medium uppercase tracking-wide">Resume Preview</p>
+              <pre className="text-stone-300 text-xs leading-relaxed whitespace-pre-wrap font-mono overflow-auto max-h-[60vh]">
                 {selected.resume_text}
               </pre>
             </div>
           )}
           {activeTab === 'cover_letter' && selected.cover_letter_text && (
-            <div className="rounded-xl bg-slate-900 border border-slate-700 p-4">
-              <p className="text-xs text-slate-500 mb-3 font-medium uppercase tracking-wide">Cover Letter Preview</p>
-              <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+            <div className="rounded-xl bg-stone-900 border border-stone-700/50 p-4 backdrop-blur-sm">
+              <p className="text-xs text-stone-500 mb-3 font-medium uppercase tracking-wide">Cover Letter Preview</p>
+              <p className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap">
                 {selected.cover_letter_text}
               </p>
             </div>
@@ -383,12 +383,12 @@ export default function DraftsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by company or title..."
-              className="w-full bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 pr-8"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 pr-8"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-100"
                 aria-label="Clear search"
               >
                 <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -399,26 +399,26 @@ export default function DraftsPage() {
           </div>
           <div className="space-y-2">
           {filteredDrafts.length === 0 && (
-            <p className="text-slate-500 text-sm text-center py-8">No drafts match your search.</p>
+            <p className="text-stone-500 text-sm text-center py-8">No drafts match your search.</p>
           )}
           {filteredDrafts.map((draft) => (
             <div
               key={draft.id}
-              className="rounded-xl bg-slate-800/60 border border-slate-700 px-4 py-3 flex items-center gap-3"
+              className="rounded-xl bg-stone-900/60 border border-stone-700/50 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
             >
               <button
                 onClick={() => setSelected(draft)}
                 className="min-w-0 flex-1 text-left"
               >
-                <p className="text-white text-sm font-medium truncate">{draft.title}</p>
-                <p className="text-slate-400 text-xs truncate">{draft.company}</p>
+                <p className="text-stone-100 text-sm font-medium truncate">{draft.title}</p>
+                <p className="text-stone-400 text-xs truncate">{draft.company}</p>
                 <div className="flex items-center gap-2 mt-1">
                   {draft.match_pct !== undefined && (
                     <span className="text-emerald-400 text-xs font-medium">{draft.match_pct}%</span>
                   )}
-                  <span className="text-slate-500 text-[10px]">{draft.last_seen}</span>
+                  <span className="text-stone-500 text-[10px]">{draft.last_seen}</span>
                   {draft.is_manual && (
-                    <span className="text-[10px] text-indigo-400 border border-indigo-500/40 px-1.5 py-0.5 rounded-full">
+                    <span className="text-[10px] text-amber-400 border border-amber-500/40 px-1.5 py-0.5 rounded-full">
                       manual
                     </span>
                   )}
@@ -434,13 +434,13 @@ export default function DraftsPage() {
                 <div className="flex gap-1.5 shrink-0">
                   <button
                     onClick={() => handleDelete(draft.id)}
-                    className="text-xs bg-red-600 hover:bg-red-500 text-white px-2.5 py-1.5 rounded-lg transition-colors"
+                    className="text-xs bg-rose-700 hover:bg-rose-600 text-stone-100 px-2.5 py-1.5 rounded-lg transition-colors"
                   >
                     Confirm
                   </button>
                   <button
                     onClick={() => setConfirmDeleteId(null)}
-                    className="text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded-lg transition-colors"
+                    className="text-xs text-stone-400 hover:text-stone-100 px-2 py-1.5 rounded-lg transition-colors"
                   >
                     Cancel
                   </button>
@@ -448,7 +448,7 @@ export default function DraftsPage() {
               ) : (
                 <button
                   onClick={() => setConfirmDeleteId(draft.id)}
-                  className="shrink-0 text-slate-600 hover:text-red-400 transition-colors p-1"
+                  className="shrink-0 text-stone-600 hover:text-rose-400 transition-colors p-1"
                 >
                   <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                     <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clipRule="evenodd" />

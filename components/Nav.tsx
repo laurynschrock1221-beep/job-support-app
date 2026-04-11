@@ -55,7 +55,7 @@ export default function Nav() {
   const path = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 border-t border-slate-800">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-stone-900/90 border-t border-stone-800 backdrop-blur-sm">
       <div className="flex max-w-lg mx-auto">
         {TABS.map((tab) => {
           const active = path === tab.href
@@ -64,11 +64,11 @@ export default function Nav() {
               key={tab.href}
               href={tab.href}
               className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-colors ${
-                active ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+                active ? 'text-amber-400' : 'text-stone-500 hover:text-stone-300'
               }`}
             >
               {tab.icon}
-              <span className={`text-[10px] font-medium ${active ? 'text-indigo-400' : ''}`}>
+              <span className={`text-[10px] font-medium ${active ? 'text-amber-400' : ''}`}>
                 {tab.label}
               </span>
             </Link>

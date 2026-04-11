@@ -143,7 +143,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-500 text-sm">Loading...</div>
+        <div className="text-stone-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -151,8 +151,8 @@ export default function SettingsPage() {
   return (
     <div className="px-4 pt-6 pb-4 space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-white">Settings</h1>
-        <p className="text-slate-500 text-sm mt-0.5">Configure your resume and generation preferences.</p>
+        <h1 className="text-xl font-semibold text-stone-100">Settings</h1>
+        <p className="text-stone-500 text-sm mt-0.5">Configure your resume and generation preferences.</p>
       </div>
 
       {/* Master Resume */}
@@ -162,7 +162,7 @@ export default function SettingsPage() {
           onChange={(e) => setSettings((s) => ({ ...s, master_resume: e.target.value }))}
           placeholder="Paste your full resume here (plain text)..."
           rows={14}
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none font-mono"
+          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
         />
         {!settings.master_resume?.trim() && (
           <p className="text-amber-400 text-xs mt-1">Required — needed for scoring and generation.</p>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
           onChange={(e) => setSettings((s) => ({ ...s, fact_bank: e.target.value }))}
           placeholder="e.g. Led Salesforce migration for 200-person org. Reduced contract cycle time by 40%..."
           rows={6}
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
         />
       </Section>
 
@@ -189,7 +189,7 @@ export default function SettingsPage() {
         description="Upload or paste an older resume to extract any new facts, achievements, or skills not already in your master resume. Anything new gets added to your Fact Bank automatically."
       >
         {/* File upload */}
-        <label className={`flex items-center justify-center gap-2 w-full border border-dashed rounded-lg py-3 text-sm transition-colors cursor-pointer ${parsing ? 'border-slate-600 text-slate-500' : 'border-slate-600 hover:border-indigo-500/60 text-slate-400 hover:text-indigo-400'}`}>
+        <label className={`flex items-center justify-center gap-2 w-full border border-dashed rounded-lg py-3 text-sm transition-colors cursor-pointer ${parsing ? 'border-stone-600 text-stone-500' : 'border-stone-600 hover:border-amber-500/60 text-stone-400 hover:text-amber-400'}`}>
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 shrink-0">
             <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
           </svg>
@@ -205,9 +205,9 @@ export default function SettingsPage() {
         </label>
 
         <div className="flex items-center gap-2">
-          <div className="flex-1 border-t border-slate-700" />
-          <span className="text-slate-600 text-xs">or paste text</span>
-          <div className="flex-1 border-t border-slate-700" />
+          <div className="flex-1 border-t border-stone-700" />
+          <span className="text-stone-600 text-xs">or paste text</span>
+          <div className="flex-1 border-t border-stone-700" />
         </div>
 
         <textarea
@@ -215,17 +215,17 @@ export default function SettingsPage() {
           onChange={(e) => { setVaultText(e.target.value); setExtractResult(null) }}
           placeholder="Paste an older resume here (plain text)..."
           rows={8}
-          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none font-mono"
+          className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2.5 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none font-mono"
         />
         <button
           onClick={handleExtractFacts}
           disabled={extracting || parsing || !vaultText.trim()}
-          className="w-full border border-indigo-500/50 hover:bg-indigo-500/10 disabled:opacity-40 text-indigo-400 text-sm font-medium py-2.5 rounded-lg transition-colors"
+          className="w-full border border-amber-500/50 hover:bg-amber-500/10 disabled:opacity-40 text-amber-400 text-sm font-medium py-2.5 rounded-lg transition-colors"
         >
           {extracting ? 'Extracting new facts...' : 'Extract & Add to Fact Bank'}
         </button>
         {extractResult && (
-          <div className={`rounded-lg px-3 py-2.5 text-xs ${extractResult.startsWith('No new') ? 'bg-slate-800 text-slate-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'}`}>
+          <div className={`rounded-lg px-3 py-2.5 text-xs ${extractResult.startsWith('No new') ? 'bg-stone-800 text-stone-400' : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'}`}>
             {extractResult.startsWith('No new') ? extractResult : (
               <>
                 <p className="font-medium mb-1.5">Added to your Fact Bank:</p>
@@ -236,7 +236,7 @@ export default function SettingsPage() {
           </div>
         )}
         {extractError && (
-          <p className="text-red-400 text-xs">{extractError}</p>
+          <p className="text-rose-400 text-xs">{extractError}</p>
         )}
       </Section>
 
@@ -244,7 +244,7 @@ export default function SettingsPage() {
       <Section title="Generation Settings" description="Controls for automated pipeline behavior.">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Daily cap</label>
+            <label className="block text-xs text-stone-400 mb-1">Daily cap</label>
             <input
               type="number"
               min={1}
@@ -253,12 +253,12 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings((s) => ({ ...s, daily_cap: parseInt(e.target.value) || 5 }))
               }
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             />
-            <p className="text-slate-600 text-[10px] mt-1">Max resumes per day</p>
+            <p className="text-stone-600 text-[10px] mt-1">Max resumes per day</p>
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Match threshold</label>
+            <label className="block text-xs text-stone-400 mb-1">Match threshold</label>
             <input
               type="number"
               min={0}
@@ -267,9 +267,9 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings((s) => ({ ...s, match_threshold: parseInt(e.target.value) || 55 }))
               }
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             />
-            <p className="text-slate-600 text-[10px] mt-1">Min AI score (0–100)</p>
+            <p className="text-stone-600 text-[10px] mt-1">Min AI score (0–100)</p>
           </div>
         </div>
       </Section>
@@ -281,37 +281,37 @@ export default function SettingsPage() {
       >
         <div className="space-y-3">
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Target titles</label>
+            <label className="block text-xs text-stone-400 mb-1">Target titles</label>
             <input
               value={targetTitles}
               onChange={(e) => setTargetTitles(e.target.value)}
               placeholder="Program Manager, Operations Manager, RevOps..."
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Target locations</label>
+            <label className="block text-xs text-stone-400 mb-1">Target locations</label>
             <input
               value={targetLocations}
               onChange={(e) => setTargetLocations(e.target.value)}
               placeholder="Remote, Denver CO, Hybrid..."
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Excluded terms</label>
+            <label className="block text-xs text-stone-400 mb-1">Excluded terms</label>
             <input
               value={excludedTerms}
               onChange={(e) => setExcludedTerms(e.target.value)}
               placeholder="engineer, developer, attorney..."
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
         </div>
       </Section>
 
       {saveError && (
-        <p className="text-red-400 text-xs rounded-lg bg-red-500/10 border border-red-500/20 px-3 py-2">
+        <p className="text-rose-400 text-xs rounded-lg bg-rose-500/10 border border-rose-500/20 px-3 py-2">
           {saveError}
         </p>
       )}
@@ -320,16 +320,16 @@ export default function SettingsPage() {
       <button
         onClick={handleSave}
         disabled={saving}
-        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium py-3 rounded-lg transition-colors"
+        className="w-full bg-amber-700 hover:bg-amber-600 disabled:opacity-50 text-stone-100 text-sm font-medium py-3 rounded-lg transition-colors"
       >
         {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Settings'}
       </button>
 
       {/* Sign out */}
-      <div className="border-t border-slate-800 pt-4">
+      <div className="border-t border-stone-800 pt-4">
         <button
           onClick={handleSignOut}
-          className="w-full text-slate-500 hover:text-red-400 text-sm py-2 transition-colors"
+          className="w-full text-stone-500 hover:text-rose-400 text-sm py-2 transition-colors"
         >
           Sign out
         </button>
@@ -350,8 +350,8 @@ function Section({
   return (
     <div className="space-y-2">
       <div>
-        <p className="text-white text-sm font-medium">{title}</p>
-        {description && <p className="text-slate-500 text-xs mt-0.5">{description}</p>}
+        <p className="text-stone-100 text-sm font-medium">{title}</p>
+        {description && <p className="text-stone-500 text-xs mt-0.5">{description}</p>}
       </div>
       {children}
     </div>

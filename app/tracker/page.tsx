@@ -13,13 +13,13 @@ import {
 import type { ApplicationEntry, ApplicationStatus, ProcessedState } from '@/lib/types'
 
 const STATUSES: { value: ApplicationStatus; label: string; color: string }[] = [
-  { value: 'applied', label: 'Applied', color: 'text-blue-400 border-blue-500/30 bg-blue-500/10' },
-  { value: 'no_response', label: 'Did Not Hear Back', color: 'text-slate-400 border-slate-500/30 bg-slate-500/10' },
-  { value: 'invited_interview', label: 'Invited for Interview', color: 'text-indigo-400 border-indigo-500/30 bg-indigo-500/10' },
-  { value: 'interviewing', label: 'Interviewing', color: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10' },
+  { value: 'applied', label: 'Applied', color: 'text-sky-400 border-sky-500/30 bg-sky-500/10' },
+  { value: 'no_response', label: 'Did Not Hear Back', color: 'text-stone-400 border-stone-500/30 bg-stone-500/10' },
+  { value: 'invited_interview', label: 'Invited for Interview', color: 'text-amber-400 border-amber-500/30 bg-amber-500/10' },
+  { value: 'interviewing', label: 'Interviewing', color: 'text-amber-300 border-amber-400/30 bg-amber-400/10' },
   { value: 'offer', label: 'Offer', color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
-  { value: 'rejected', label: 'Rejected', color: 'text-red-400 border-red-500/30 bg-red-500/10' },
-  { value: 'withdrawn', label: 'Withdrawn', color: 'text-slate-400 border-slate-500/30 bg-slate-500/10' },
+  { value: 'rejected', label: 'Rejected', color: 'text-rose-400 border-rose-500/30 bg-rose-500/10' },
+  { value: 'withdrawn', label: 'Withdrawn', color: 'text-stone-400 border-stone-500/30 bg-stone-500/10' },
 ]
 
 function statusStyle(status: ApplicationStatus) {
@@ -152,7 +152,7 @@ export default function TrackerPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-500 text-sm">Loading...</div>
+        <div className="text-stone-500 text-sm">Loading...</div>
       </div>
     )
   }
@@ -161,20 +161,20 @@ export default function TrackerPage() {
     <div className="px-4 pt-6 pb-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white">Application Tracker</h1>
-          <p className="text-slate-500 text-sm mt-0.5">{apps.length} application{apps.length !== 1 ? 's' : ''} tracked</p>
+          <h1 className="text-xl font-semibold text-stone-100">Application Tracker</h1>
+          <p className="text-stone-500 text-sm mt-0.5">{apps.length} application{apps.length !== 1 ? 's' : ''} tracked</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSortOrder((o) => (o === 'desc' ? 'asc' : 'desc'))}
-            className="text-xs text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 px-2.5 py-1.5 rounded-lg transition-colors"
+            className="text-xs text-stone-400 hover:text-stone-100 border border-stone-700 hover:border-stone-500 px-2.5 py-1.5 rounded-lg transition-colors"
             title={sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
           >
             {sortOrder === 'desc' ? 'Newest first' : 'Oldest first'}
           </button>
           <button
             onClick={openAdd}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors"
+            className="bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-medium px-3 py-2 rounded-lg transition-colors"
           >
             + Add
           </button>
@@ -189,13 +189,13 @@ export default function TrackerPage() {
               key={s.value}
               onClick={() => setFilterStatus(filterStatus === s.value ? 'all' : s.value)}
               className={`rounded-lg border px-2 py-1.5 text-center transition-colors ${
-                filterStatus === s.value ? s.color : 'border-slate-700 bg-slate-800/60'
+                filterStatus === s.value ? s.color : 'border-stone-700 bg-stone-800/60'
               }`}
             >
-              <p className={`text-lg font-bold ${filterStatus === s.value ? '' : 'text-white'}`}>
+              <p className={`text-lg font-bold ${filterStatus === s.value ? '' : 'text-stone-100'}`}>
                 {counts[s.value]}
               </p>
-              <p className={`text-[10px] ${filterStatus === s.value ? '' : 'text-slate-500'}`}>
+              <p className={`text-[10px] ${filterStatus === s.value ? '' : 'text-stone-500'}`}>
                 {s.label}
               </p>
             </button>
@@ -205,13 +205,13 @@ export default function TrackerPage() {
 
       {/* Add / Edit form */}
       {showForm && (
-        <div className="rounded-xl bg-slate-800/60 border border-slate-700 p-4 space-y-3">
+        <div className="rounded-xl bg-stone-900/60 border border-stone-700/50 p-4 space-y-3 backdrop-blur-sm">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-white">{editingId ? 'Edit Application' : 'Add Application'}</p>
+            <p className="text-sm font-medium text-stone-100">{editingId ? 'Edit Application' : 'Add Application'}</p>
             {!editingId && drafts.length > 0 && (
               <button
                 onClick={() => setShowDraftPicker((v) => !v)}
-                className="text-xs text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-lg transition-colors"
+                className="text-xs text-amber-400 hover:text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg transition-colors"
               >
                 {showDraftPicker ? 'Cancel' : 'Pick from Drafts'}
               </button>
@@ -220,18 +220,18 @@ export default function TrackerPage() {
 
           {/* Draft picker */}
           {showDraftPicker && (
-            <div className="rounded-lg bg-slate-900 border border-slate-700 overflow-hidden">
-              <p className="text-xs text-slate-500 px-3 pt-2.5 pb-1.5">Select a draft to pre-fill</p>
-              <div className="divide-y divide-slate-800 max-h-48 overflow-y-auto">
+            <div className="rounded-lg bg-stone-900 border border-stone-700/50 overflow-hidden">
+              <p className="text-xs text-stone-500 px-3 pt-2.5 pb-1.5">Select a draft to pre-fill</p>
+              <div className="divide-y divide-stone-800 max-h-48 overflow-y-auto">
                 {drafts.map((draft) => (
                   <button
                     key={draft.id}
                     onClick={() => pickDraft(draft)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-slate-800 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-left hover:bg-stone-800 transition-colors"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="text-white text-sm truncate">{draft.title}</p>
-                      <p className="text-slate-400 text-xs">{draft.company}</p>
+                      <p className="text-stone-100 text-sm truncate">{draft.title}</p>
+                      <p className="text-stone-400 text-xs">{draft.company}</p>
                     </div>
                     {draft.match_pct !== undefined && (
                       <span className="text-emerald-400 text-xs ml-3 shrink-0">{draft.match_pct}%</span>
@@ -244,31 +244,31 @@ export default function TrackerPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Company *</label>
+              <label className="block text-xs text-stone-400 mb-1">Company *</label>
               <input
                 value={form.company}
                 onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                 placeholder="Acme Corp"
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Title *</label>
+              <label className="block text-xs text-stone-400 mb-1">Title *</label>
               <input
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 placeholder="Program Manager"
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Status</label>
+            <label className="block text-xs text-stone-400 mb-1">Status</label>
             <select
               value={form.status}
               onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as ApplicationStatus }))}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
             >
               {STATUSES.map((s) => (
                 <option key={s.value} value={s.value}>{s.label}</option>
@@ -278,65 +278,65 @@ export default function TrackerPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Date Applied</label>
+              <label className="block text-xs text-stone-400 mb-1">Date Applied</label>
               <input
                 type="date"
                 value={form.applied_date}
                 onChange={(e) => setForm((f) => ({ ...f, applied_date: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Follow-up Date</label>
+              <label className="block text-xs text-stone-400 mb-1">Follow-up Date</label>
               <input
                 type="date"
                 value={form.follow_up_date}
                 onChange={(e) => setForm((f) => ({ ...f, follow_up_date: e.target.value }))}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Contact Name</label>
+              <label className="block text-xs text-stone-400 mb-1">Contact Name</label>
               <input
                 value={form.contact_name}
                 onChange={(e) => setForm((f) => ({ ...f, contact_name: e.target.value }))}
                 placeholder="Jane Smith"
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Contact Email</label>
+              <label className="block text-xs text-stone-400 mb-1">Contact Email</label>
               <input
                 type="email"
                 value={form.contact_email}
                 onChange={(e) => setForm((f) => ({ ...f, contact_email: e.target.value }))}
                 placeholder="jane@company.com"
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Job URL</label>
+            <label className="block text-xs text-stone-400 mb-1">Job URL</label>
             <input
               value={form.job_url}
               onChange={(e) => setForm((f) => ({ ...f, job_url: e.target.value }))}
               placeholder="https://..."
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Notes</label>
+            <label className="block text-xs text-stone-400 mb-1">Notes</label>
             <textarea
               value={form.notes}
               onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
               placeholder="Interview prep notes, recruiter name, next steps..."
               rows={3}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full bg-stone-800/80 border border-stone-600 rounded-lg px-3 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-500 resize-none"
             />
           </div>
 
@@ -344,13 +344,13 @@ export default function TrackerPage() {
             <button
               onClick={handleSave}
               disabled={saving || !form.company.trim() || !form.title.trim()}
-              className="flex-1 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+              className="flex-1 bg-amber-700 hover:bg-amber-600 disabled:opacity-50 text-stone-100 text-sm font-medium py-2.5 rounded-lg transition-colors"
             >
               {saving ? 'Saving...' : editingId ? 'Save Changes' : 'Add Application'}
             </button>
             <button
               onClick={() => { setShowForm(false); setEditingId(null) }}
-              className="px-4 py-2.5 rounded-lg border border-slate-700 text-slate-400 hover:text-white text-sm transition-colors"
+              className="px-4 py-2.5 rounded-lg border border-stone-700 text-stone-400 hover:text-stone-100 text-sm transition-colors"
             >
               Cancel
             </button>
@@ -361,21 +361,21 @@ export default function TrackerPage() {
       {/* Application list */}
       {filtered.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-slate-500 text-sm">
+          <p className="text-stone-500 text-sm">
             {apps.length === 0 ? 'No applications yet. Hit + Add to track your first one.' : 'No applications match this filter.'}
           </p>
         </div>
       ) : (
         <div className="space-y-2">
           {filtered.map((app) => (
-            <div key={app.id} className="rounded-xl bg-slate-800/60 border border-slate-700 overflow-hidden">
+            <div key={app.id} className="rounded-xl bg-stone-900/60 border border-stone-700/50 overflow-hidden backdrop-blur-sm">
               <button
                 onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="text-white text-sm font-medium truncate">{app.title}</p>
-                  <p className="text-slate-400 text-xs">{app.company}</p>
+                  <p className="text-stone-100 text-sm font-medium truncate">{app.title}</p>
+                  <p className="text-stone-400 text-xs">{app.company}</p>
                   {app.follow_up_date && (
                     <p className="text-amber-400 text-[10px] mt-0.5">
                       Follow up: {app.follow_up_date}
@@ -388,17 +388,17 @@ export default function TrackerPage() {
               </button>
 
               {expandedId === app.id && (
-                <div className="px-4 pb-4 border-t border-slate-700 pt-3 space-y-3">
+                <div className="px-4 pb-4 border-t border-stone-700/50 pt-3 space-y-3">
                   {/* Quick status change */}
                   <div>
-                    <p className="text-xs text-slate-500 mb-2">Update status</p>
+                    <p className="text-xs text-stone-500 mb-2">Update status</p>
                     <div className="flex flex-wrap gap-1.5">
                       {STATUSES.map((s) => (
                         <button
                           key={s.value}
                           onClick={() => handleStatusChange(app.id, s.value)}
                           className={`text-[10px] font-medium px-2.5 py-1 rounded-full border transition-colors ${
-                            app.status === s.value ? s.color : 'border-slate-700 text-slate-500 hover:text-white'
+                            app.status === s.value ? s.color : 'border-stone-700 text-stone-500 hover:text-stone-100'
                           }`}
                         >
                           {s.label}
@@ -414,8 +414,8 @@ export default function TrackerPage() {
                     {app.contact_email && <MetaItem label="Email" value={app.contact_email} />}
                     {app.job_url && (
                       <div className="col-span-2">
-                        <p className="text-slate-500">URL</p>
-                        <a href={app.job_url} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 truncate block">
+                        <p className="text-stone-500">URL</p>
+                        <a href={app.job_url} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 truncate block">
                           {app.job_url}
                         </a>
                       </div>
@@ -423,15 +423,15 @@ export default function TrackerPage() {
                   </div>
 
                   {app.notes && (
-                    <div className="rounded-lg bg-slate-900 px-3 py-2">
-                      <p className="text-slate-400 text-xs whitespace-pre-wrap">{app.notes}</p>
+                    <div className="rounded-lg bg-stone-900 px-3 py-2">
+                      <p className="text-stone-400 text-xs whitespace-pre-wrap">{app.notes}</p>
                     </div>
                   )}
 
                   <div className="flex gap-2">
                     <button
                       onClick={() => openEdit(app)}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-lg transition-colors"
+                      className="text-xs text-amber-400 hover:text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-lg transition-colors"
                     >
                       Edit
                     </button>
@@ -439,13 +439,13 @@ export default function TrackerPage() {
                       <>
                         <button
                           onClick={() => handleDelete(app.id)}
-                          className="text-xs bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg transition-colors"
+                          className="text-xs bg-rose-700 hover:bg-rose-600 text-stone-100 px-3 py-1.5 rounded-lg transition-colors"
                         >
                           Confirm Delete
                         </button>
                         <button
                           onClick={() => setConfirmDeleteId(null)}
-                          className="text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded-lg transition-colors"
+                          className="text-xs text-stone-400 hover:text-stone-100 px-2 py-1.5 rounded-lg transition-colors"
                         >
                           Cancel
                         </button>
@@ -453,7 +453,7 @@ export default function TrackerPage() {
                     ) : (
                       <button
                         onClick={() => setConfirmDeleteId(app.id)}
-                        className="text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-3 py-1.5 rounded-lg transition-colors"
+                        className="text-xs text-rose-400 hover:text-rose-300 border border-rose-500/30 px-3 py-1.5 rounded-lg transition-colors"
                       >
                         Delete
                       </button>
@@ -472,8 +472,8 @@ export default function TrackerPage() {
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-slate-500">{label}</p>
-      <p className="text-slate-300">{value}</p>
+      <p className="text-stone-500">{label}</p>
+      <p className="text-stone-300">{value}</p>
     </div>
   )
 }
