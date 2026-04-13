@@ -22,6 +22,8 @@ export interface ProcessedState {
   resume_text?: string
   cover_letter_text?: string
   integrity_notes?: string
+  strengths?: string[]
+  gaps?: string[]
   last_seen: string
   today: boolean
   is_manual: boolean

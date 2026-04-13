@@ -153,6 +153,8 @@ export default function DraftsPage() {
         output_file: generate_result.output_file,
         integrity_notes: generate_result.integrity_notes,
         match_pct: score_result.match_pct,
+        strengths: score_result.strengths,
+        gaps: score_result.gaps,
         cover_letter_text: undefined,
         updated_at: new Date().toISOString(),
       }
@@ -260,6 +262,28 @@ export default function DraftsPage() {
               {regenerating ? 'Regenerating...' : '↺ Regenerate Resume'}
             </button>
             {regenError && <p className="text-rose-400 text-xs">{regenError}</p>}
+
+            {/* Strengths & Gaps */}
+            {(selected.strengths?.length || selected.gaps?.length) ? (
+              <div className="grid grid-cols-2 gap-2">
+                {selected.strengths?.length ? (
+                  <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3 py-2.5">
+                    <p className="text-[10px] font-medium text-emerald-400 uppercase tracking-wider mb-1.5">Strengths</p>
+                    {selected.strengths.map((s, i) => (
+                      <p key={i} className="text-xs text-emerald-300/80 leading-snug mb-1">• {s}</p>
+                    ))}
+                  </div>
+                ) : null}
+                {selected.gaps?.length ? (
+                  <div className="rounded-xl bg-rose-500/10 border border-rose-500/20 px-3 py-2.5">
+                    <p className="text-[10px] font-medium text-rose-400 uppercase tracking-wider mb-1.5">Gaps</p>
+                    {selected.gaps.map((g, i) => (
+                      <p key={i} className="text-xs text-rose-300/80 leading-snug mb-1">• {g}</p>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
 
             {selected.integrity_notes && (
               <div className="rounded-lg bg-white/5 px-3 py-2">

@@ -148,6 +148,8 @@ export default function ManualPage() {
       resume_text: generate_result.resume_text,
       output_file: generate_result.output_file,
       integrity_notes: generate_result.integrity_notes,
+      strengths: score_result.strengths,
+      gaps: score_result.gaps,
       last_seen: today,
       today: true,
       is_manual: true,
