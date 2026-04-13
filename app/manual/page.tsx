@@ -291,6 +291,27 @@ export default function ManualPage() {
     }
   }
 
+  async function handleRegenerateAll() {
+    if (!settings) return
+    const toRegen = roles.filter((r) => r.jd_text)
+    if (!toRegen.length) return
+    setGeneratingAll(true)
+    for (let i = 0; i < toRegen.length; i++) {
+      const role = toRegen[i]
+      setGeneratingAllStatus(`Regenerating ${i + 1} of ${toRegen.length}: ${role.title} at ${role.company}`)
+      setActiveRoleId(role.id)
+      try {
+        await runGenerate(role, settings)
+        setRoles((prev) => prev.map((r) => r.id === role.id ? { ...r, status: 'generated' } : r))
+      } catch {
+        // continue to next even if one fails
+      }
+      setActiveRoleId(null)
+    }
+    setGeneratingAll(false)
+    setGeneratingAllStatus('')
+  }
+
   async function handleDelete(id: string) {
     await deleteManualRole(id)
     setRoles((prev) => prev.filter((r) => r.id !== id))
@@ -496,7 +517,21 @@ export default function ManualPage() {
       {/* Previous manual roles */}
       {roles.length > 0 && (
         <div>
-          <h2 className="text-sm font-medium text-slate-400 mb-2">History</h2>
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-medium text-slate-400">History ({roles.length})</h2>
+            <button
+              onClick={handleRegenerateAll}
+              disabled={generatingAll || !settings?.master_resume?.trim()}
+              className="text-xs bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+            >
+              {generatingAll ? 'Running...' : `↺ Regenerate All`}
+            </button>
+          </div>
+          {generatingAll && generatingAllStatus && (
+            <div className="rounded-xl bg-violet-500/10 border border-violet-500/20 px-3 py-2 mb-2">
+              <p className="text-violet-300 text-xs">{generatingAllStatus}</p>
+            </div>
+          )}
           <div className="space-y-2">
             {roles.map((role) => (
               <ManualRoleCard
