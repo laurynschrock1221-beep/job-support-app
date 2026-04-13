@@ -274,6 +274,23 @@ export default function ManualPage() {
     setGeneratingAllStatus('')
   }
 
+  async function handleRegenerateFromHistory(role: ManualRole) {
+    if (!settings) return
+    setActiveRoleId(role.id)
+    setProcessing('generating')
+    setError('')
+    try {
+      await runGenerate(role, settings)
+      setRoles((prev) => prev.map((r) => r.id === role.id ? { ...r, status: 'generated' } : r))
+      setProcessing('done')
+    } catch {
+      setProcessing('error')
+      setError('Regeneration failed. Try again.')
+    } finally {
+      setActiveRoleId(null)
+    }
+  }
+
   async function handleDelete(id: string) {
     await deleteManualRole(id)
     setRoles((prev) => prev.filter((r) => r.id !== id))
@@ -488,6 +505,8 @@ export default function ManualPage() {
                 expanded={expandedId === role.id}
                 onToggle={() => setExpandedId(expandedId === role.id ? null : role.id)}
                 onDelete={() => handleDelete(role.id)}
+                onRegenerate={() => handleRegenerateFromHistory(role)}
+                regenerating={activeRoleId === role.id && processing === 'generating'}
               />
             ))}
           </div>
@@ -502,11 +521,15 @@ function ManualRoleCard({
   expanded,
   onToggle,
   onDelete,
+  onRegenerate,
+  regenerating,
 }: {
   role: ManualRole
   expanded: boolean
   onToggle: () => void
   onDelete: () => void
+  onRegenerate: () => void
+  regenerating: boolean
 }) {
   const statusColors: Record<string, string> = {
     pending: 'text-amber-400',
@@ -534,21 +557,28 @@ function ManualRoleCard({
           <p className="text-slate-500 text-xs">
             Submitted {new Date(role.created_at).toLocaleString()}
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <button
-              onClick={onDelete}
-              className="text-xs bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-400 px-3 py-1.5 rounded-lg transition-colors"
+              onClick={onRegenerate}
+              disabled={regenerating || !role.jd_text}
+              className="text-xs bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
             >
-              Delete
+              {regenerating ? 'Generating...' : '↺ Regenerate'}
             </button>
             {role.status === 'generated' && (
               <a
                 href="/drafts"
                 className="text-xs text-violet-400 hover:text-violet-300 border border-violet-500/30 px-3 py-1.5 rounded-lg transition-colors"
               >
-                View Draft
+                View Draft →
               </a>
             )}
+            <button
+              onClick={onDelete}
+              className="text-xs bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-400 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Delete
+            </button>
           </div>
         </div>
       )}
