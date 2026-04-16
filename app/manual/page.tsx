@@ -8,6 +8,7 @@ import {
   saveManualRole,
   updateManualRoleStatus,
   deleteManualRole,
+  clearManualRoles,
   saveProcessedState,
   incrementDailyCount,
   generateId,
@@ -47,6 +48,7 @@ export default function ManualPage() {
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [generatingAll, setGeneratingAll] = useState(false)
   const [generatingAllStatus, setGeneratingAllStatus] = useState('')
+  const [confirmClear, setConfirmClear] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -317,6 +319,12 @@ export default function ManualPage() {
     setRoles((prev) => prev.filter((r) => r.id !== id))
   }
 
+  async function handleClearHistory() {
+    await clearManualRoles()
+    setRoles([])
+    setConfirmClear(false)
+  }
+
   const noResume = !settings?.master_resume?.trim()
   const isProcessing = processing === 'scoring' || processing === 'generating'
 
@@ -519,13 +527,38 @@ export default function ManualPage() {
         <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-sm font-medium text-slate-400">History ({roles.length})</h2>
-            <button
-              onClick={handleRegenerateAll}
-              disabled={generatingAll || !settings?.master_resume?.trim()}
-              className="text-xs bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
-            >
-              {generatingAll ? 'Running...' : `↺ Regenerate All`}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleRegenerateAll}
+                disabled={generatingAll || !settings?.master_resume?.trim()}
+                className="text-xs bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+              >
+                {generatingAll ? 'Running...' : '↺ Regenerate All'}
+              </button>
+              {confirmClear ? (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={handleClearHistory}
+                    className="text-xs bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={() => setConfirmClear(false)}
+                    className="text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmClear(true)}
+                  className="text-xs border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
           {generatingAll && generatingAllStatus && (
             <div className="rounded-xl bg-violet-500/10 border border-violet-500/20 px-3 py-2 mb-2">

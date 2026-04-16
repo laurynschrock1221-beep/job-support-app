@@ -168,6 +168,12 @@ export async function deleteManualRole(id: string): Promise<void> {
   await supabase.from('manual_roles').delete().eq('id', id)
 }
 
+export async function clearManualRoles(): Promise<void> {
+  const uid = await getUserId()
+  if (!uid) return
+  await supabase.from('manual_roles').delete().eq('user_id', uid)
+}
+
 // ── Daily Counts ──────────────────────────────────────────────────────────────
 
 export async function getDailyCount(date: string): Promise<DailyCount | null> {
