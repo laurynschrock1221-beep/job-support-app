@@ -281,32 +281,42 @@ export async function saveSettings(s: Partial<UserSettings>): Promise<void> {
   if (error) throw new Error(`${error.message} (code: ${error.code})`)
 }
 
-// ── Application Tracker ───────────────────────────────────────────────────────
+// ── Application Tracker (server-side API routes to avoid client auth issues) ──
+
+async function getAuthToken(): Promise<string | null> {
+  const { data: { session } } = await supabase.auth.getSession()
+  return session?.access_token ?? null
+}
+
+async function appFetch(method: string, body?: object): Promise<Response> {
+  const token = await getAuthToken()
+  return fetch('/api/save-application', {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  })
+}
 
 export async function getApplications(): Promise<ApplicationEntry[]> {
-  const uid = await getUserId()
-  if (!uid) return []
-  const { data, error } = await supabase
-    .from('application_tracker')
-    .select('*')
-    .eq('user_id', uid)
-    .order('updated_at', { ascending: false })
-  if (error) console.error('getApplications error:', error.message)
-  return (data ?? []) as ApplicationEntry[]
+  try {
+    const res = await appFetch('GET')
+    if (!res.ok) return []
+    const { applications } = await res.json()
+    return (applications ?? []) as ApplicationEntry[]
+  } catch {
+    return []
+  }
 }
 
 export async function saveApplication(app: Omit<ApplicationEntry, 'user_id'>): Promise<void> {
-  console.log('[saveApplication] getting user id...')
-  const uid = await getUserId()
-  console.log('[saveApplication] uid:', uid)
-  if (!uid) throw new Error('Not authenticated — please sign out and sign back in.')
-  const now = new Date().toISOString()
-  console.log('[saveApplication] upserting...')
-  const { error } = await supabase
-    .from('application_tracker')
-    .upsert({ ...app, user_id: uid, updated_at: now }, { onConflict: 'id' })
-  console.log('[saveApplication] done, error:', error)
-  if (error) throw new Error(`${error.message} (code: ${error.code})`)
+  const res = await appFetch('POST', app)
+  if (!res.ok) {
+    const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }))
+    throw new Error(error ?? `HTTP ${res.status}`)
+  }
 }
 
 export async function updateApplicationStatus(
@@ -314,13 +324,9 @@ export async function updateApplicationStatus(
   status: ApplicationStatus,
   extra?: Partial<ApplicationEntry>
 ): Promise<void> {
-  const now = new Date().toISOString()
-  await supabase
-    .from('application_tracker')
-    .update({ status, updated_at: now, ...extra })
-    .eq('id', id)
+  await appFetch('PATCH', { id, status, ...extra })
 }
 
 export async function deleteApplication(id: string): Promise<void> {
-  await supabase.from('application_tracker').delete().eq('id', id)
+  await appFetch('DELETE', { id })
 }
