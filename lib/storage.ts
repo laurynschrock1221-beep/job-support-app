@@ -296,12 +296,16 @@ export async function getApplications(): Promise<ApplicationEntry[]> {
 }
 
 export async function saveApplication(app: Omit<ApplicationEntry, 'user_id'>): Promise<void> {
+  console.log('[saveApplication] getting user id...')
   const uid = await getUserId()
-  if (!uid) return
+  console.log('[saveApplication] uid:', uid)
+  if (!uid) throw new Error('Not authenticated — please sign out and sign back in.')
   const now = new Date().toISOString()
+  console.log('[saveApplication] upserting...')
   const { error } = await supabase
     .from('application_tracker')
     .upsert({ ...app, user_id: uid, updated_at: now }, { onConflict: 'id' })
+  console.log('[saveApplication] done, error:', error)
   if (error) throw new Error(`${error.message} (code: ${error.code})`)
 }
 
