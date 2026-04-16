@@ -77,9 +77,11 @@ export default function Nav() {
               }`}
             >
               {tab.icon}
-              <span className={`text-[10px] font-medium ${active ? 'text-violet-400' : ''}`}>
-                {tab.label}
-              </span>
+              {active && (
+                <span className="text-[10px] font-medium text-violet-400">
+                  {tab.label}
+                </span>
+              )}
             </Link>
           )
         })}
