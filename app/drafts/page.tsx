@@ -95,7 +95,8 @@ export default function DraftsPage() {
       await saveApplication(entry)
       router.push('/tracker')
     } catch (err) {
-      setRegenError('Failed to save application. Please try again.')
+      const msg = err instanceof Error ? err.message : 'Unknown error'
+      setRegenError(`Save failed: ${msg}`)
       console.error('handleMarkApplied error:', err)
     } finally {
       setMarkingApplied(false)
