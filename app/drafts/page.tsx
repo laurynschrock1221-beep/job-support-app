@@ -159,7 +159,7 @@ export default function DraftsPage() {
         const errData = await res.json().catch(() => ({}))
         throw new Error(errData.error ?? `Request failed (${res.status})`)
       }
-      const { score_result, generate_result } = await res.json()
+      const { score_result, generate_result, ats_result } = await res.json()
       const updated: ProcessedState = {
         ...draft,
         resume_text: generate_result.resume_text,
@@ -168,6 +168,8 @@ export default function DraftsPage() {
         match_pct: score_result.match_pct,
         strengths: score_result.strengths,
         gaps: score_result.gaps,
+        ats_keywords_present: ats_result?.keywords_present ?? [],
+        ats_keywords_missing: ats_result?.keywords_missing ?? [],
         cover_letter_text: undefined,
         updated_at: new Date().toISOString(),
       }
@@ -295,6 +297,44 @@ export default function DraftsPage() {
                     ))}
                   </div>
                 ) : null}
+              </div>
+            ) : null}
+
+            {/* ATS Keyword Check */}
+            {(selected.ats_keywords_present?.length || selected.ats_keywords_missing?.length) ? (
+              <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">ATS Keywords</p>
+                  {selected.ats_keywords_present && selected.ats_keywords_missing && (
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      selected.ats_keywords_missing.length === 0
+                        ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20'
+                        : selected.ats_keywords_missing.length <= 2
+                        ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20'
+                        : 'text-rose-400 bg-rose-500/10 border border-rose-500/20'
+                    }`}>
+                      {selected.ats_keywords_present.length}/{selected.ats_keywords_present.length + selected.ats_keywords_missing.length} matched
+                    </span>
+                  )}
+                </div>
+                {selected.ats_keywords_present && selected.ats_keywords_present.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {selected.ats_keywords_present.map((kw, i) => (
+                      <span key={i} className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                        ✓ {kw}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {selected.ats_keywords_missing && selected.ats_keywords_missing.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {selected.ats_keywords_missing.map((kw, i) => (
+                      <span key={i} className="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full">
+                        ✗ {kw}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : null}
 

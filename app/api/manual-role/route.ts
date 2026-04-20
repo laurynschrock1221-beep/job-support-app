@@ -203,6 +203,51 @@ Keep it to one line.`
   }
 }
 
+// ── ATS compatibility check ──────────────────────────────────────────────────
+
+async function runAtsCheck(
+  jd_text: string,
+  resume_text: string
+): Promise<{ keywords_present: string[]; keywords_missing: string[] }> {
+  const prompt = `You are an ATS (Applicant Tracking System) expert. Analyze whether this resume will pass ATS filtering for the job description.
+
+JOB DESCRIPTION:
+${jd_text}
+
+RESUME:
+${resume_text}
+
+Extract the 10-15 most important ATS keywords and phrases from the job description — focus on:
+- Required skills, tools, and technologies
+- Key action verbs and role-specific terminology
+- Required credentials, certifications, or qualifications
+- Industry-specific phrases
+
+Then check each one: is it present (or a close equivalent) in the resume?
+
+Respond with ONLY valid JSON — no markdown, no explanation:
+{
+  "keywords_present": ["keyword1", "keyword2"],
+  "keywords_missing": ["keyword3", "keyword4"]
+}
+
+Keep each keyword short (1-4 words). Be strict — if a keyword isn't clearly present, put it in missing.`
+
+  const message = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 512,
+    messages: [{ role: 'user', content: prompt }],
+  })
+
+  const raw = message.content[0].type === 'text' ? message.content[0].text.trim() : '{}'
+  const cleaned = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim()
+  const result = JSON.parse(cleaned)
+  return {
+    keywords_present: result.keywords_present ?? [],
+    keywords_missing: result.keywords_missing ?? [],
+  }
+}
+
 // ── Route handler ────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -228,7 +273,10 @@ export async function POST(req: NextRequest) {
       location
     )
 
-    return NextResponse.json({ score_result, generate_result, role_key })
+    // ATS check runs after generation so it can compare the actual resume output
+    const ats_result = await runAtsCheck(jd_text, generate_result.resume_text)
+
+    return NextResponse.json({ score_result, generate_result, ats_result, role_key })
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('manual-role error:', msg)

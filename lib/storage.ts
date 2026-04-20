@@ -80,8 +80,14 @@ export async function saveProcessedState(state: Omit<ProcessedState, 'user_id'>)
   }
   const now = new Date().toISOString()
 
-  // Strip strengths/gaps in case columns haven't been migrated yet
-  const { strengths, gaps, ...baseState } = state as typeof state & { strengths?: unknown; gaps?: unknown }
+  // Strip optional array columns — update separately after base upsert
+  const { strengths, gaps, ats_keywords_present, ats_keywords_missing, ...baseState } =
+    state as typeof state & {
+      strengths?: unknown
+      gaps?: unknown
+      ats_keywords_present?: unknown
+      ats_keywords_missing?: unknown
+    }
   const payload = { ...baseState, user_id: uid, updated_at: now }
 
   const { error } = await supabase
@@ -93,11 +99,15 @@ export async function saveProcessedState(state: Omit<ProcessedState, 'user_id'>)
     throw new Error(error.message)
   }
 
-  // If strengths/gaps columns exist, update them separately
-  if (strengths || gaps) {
+  const extras: Record<string, unknown> = {}
+  if (strengths !== undefined) extras.strengths = strengths
+  if (gaps !== undefined) extras.gaps = gaps
+  if (ats_keywords_present !== undefined) extras.ats_keywords_present = ats_keywords_present
+  if (ats_keywords_missing !== undefined) extras.ats_keywords_missing = ats_keywords_missing
+  if (Object.keys(extras).length > 0) {
     await supabase
       .from('processed_state')
-      .update({ strengths, gaps })
+      .update(extras)
       .eq('role_key', state.role_key)
       .eq('user_id', uid)
   }

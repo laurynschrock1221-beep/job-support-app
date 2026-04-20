@@ -24,6 +24,8 @@ export interface ProcessedState {
   integrity_notes?: string
   strengths?: string[]
   gaps?: string[]
+  ats_keywords_present?: string[]
+  ats_keywords_missing?: string[]
   last_seen: string
   today: boolean
   is_manual: boolean
