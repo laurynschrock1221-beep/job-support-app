@@ -160,7 +160,8 @@ RULES — violating any rule makes the output unusable:
 6. Do NOT invent, fabricate, or embellish any experience, dates, titles, companies, or credentials
 7. TECHNICAL TOOLS: pipe-separated on a single line, no bullets
 8. No markdown, no asterisks, no bold/italic markers — plain text only
-9. Output ONLY the resume. No preamble, explanation, or commentary.`
+9. Output ONLY the resume. No preamble, explanation, or commentary.
+10. CONTEXT FRAMING — when the JD uses a category term (e.g. "donor management software", "grant management system", "CRM platform") and the candidate has a specific tool that belongs to that category, use the JD's category language in the bullet to make the match explicit to both ATS and human readers. Example: if JD says "donor management software" and candidate has Salesforce, write "Administered donor management database in Salesforce" rather than just mentioning Salesforce as a standalone tool. This bridges the gap between the candidate's specific experience and the employer's language.`
 
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
@@ -222,9 +223,19 @@ Extract the 10-15 most important ATS keywords from the job description. For each
 REQUIRED: explicitly marked as required, must-have, or minimum qualification — ATS will hard-filter on these
 PREFERRED: marked as preferred, desired, a plus, or nice-to-have — ATS may use these for ranking but not hard filtering
 
-Only put a keyword in "keywords_missing" if it is REQUIRED and NOT present in the resume.
-Put preferred/nice-to-have keywords that are missing in "keywords_present" with a "~" prefix to indicate they are preferred but not required (e.g. "~ Salesforce").
-Put clearly present keywords (required or preferred) in "keywords_present" without any prefix.
+CRITICAL RULE — Category vs. Specific Tool:
+If the JD mentions a SOFTWARE CATEGORY and the resume contains a specific named tool that belongs to that category, the category requirement is SATISFIED. Do not flag it as missing. Examples:
+- "donor management software" is satisfied by Salesforce, Raiser's Edge, Bloomerang, DonorPerfect, etc.
+- "CRM" or "CRM platform" is satisfied by Salesforce, HubSpot, Microsoft Dynamics, etc.
+- "project management tool" is satisfied by Asana, Monday.com, Jira, Trello, etc.
+- "data visualization software" is satisfied by Tableau, Power BI, DOMO, Looker, etc.
+- "HRIS" is satisfied by Workday, ADP, BambooHR, etc.
+- "accounting software" is satisfied by QuickBooks, NetSuite, Sage, etc.
+Apply this logic broadly — if a specific tool the candidate has is a well-known example of a category the JD requires, mark the category as present.
+
+Only put a keyword in "keywords_missing" if it is REQUIRED and genuinely absent (no equivalent tool or experience satisfies it).
+Put preferred/nice-to-have keywords that are missing in "keywords_present" with a "~" prefix (e.g. "~ DOMO").
+Put clearly present keywords (required or preferred, including satisfied categories) in "keywords_present" without any prefix.
 
 Respond with ONLY valid JSON — no markdown, no explanation:
 {
@@ -232,7 +243,7 @@ Respond with ONLY valid JSON — no markdown, no explanation:
   "keywords_missing": ["required_keyword_not_in_resume"]
 }
 
-Keep each keyword short (1-4 words). Only flag as missing if it is truly required and absent.`
+Keep each keyword short (1-4 words). Only flag as missing if it is truly required and has no equivalent in the resume.`
 
   const message = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
