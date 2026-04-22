@@ -26,31 +26,76 @@ Analyze the fit and respond with a JSON object only (no markdown, no explanation
   "strengths": <array of 2-4 strings describing key alignment points>,
   "gaps": <array of 0-3 strings describing key gaps>,
   "hard_filter_risk": <boolean — true if the JD has explicit requirements the candidate clearly cannot satisfy>,
-  "hard_filter_reasons": <array of 0-3 short strings describing each hard filter risk — empty array if none>
+  "hard_filter_reasons": <array of 0-3 short strings — hard filter risks AND any salary/location flags>
 }
 
-Scoring guidelines:
+── SCORING PHILOSOPHY ───────────────────────────────────────────────────────
+Score based on tailored potential, not just literal resume keywords. This candidate's
+experience can be reframed to match many JD requirements — account for that when scoring.
+
+Hard vs soft gaps:
+- HARD gap: specific required credential (CPA, JD, bar license, Series 7, PE, security clearance),
+  mandatory industry experience with no transferable equivalent, years clearly unmet
+- SOFT gap: industry vocabulary difference, sector exposure, preferred (not required) certifications,
+  domain the candidate hasn't named explicitly but has transferable experience for
+- Only hard gaps should meaningfully reduce the score. Soft gaps are bridgeable through reframing.
+
+"OR" clauses: If a JD says "fintech OR regulatory-heavy environment", treat that as MET —
+the candidate has two regulatory-heavy environments (IRS federal compliance + international
+export compliance under USDA/WTC). Do not penalize for not having fintech specifically.
+
+Scoring thresholds:
 - 80+: Strong fit, definitely generate
 - 65-79: Good fit, generate
 - 50-64: Marginal fit, generate (especially if manual)
 - 35-49: Weak fit — generate only if manual and user intent is clear
-- Below 35: Drop (even if manual, flag as low confidence but still generate for manual)
-- For this manual role: generate if match_score >= 35, note low confidence in drop_reason if below 50
+- Below 35: Drop (flag low confidence but still generate for manual submissions)
+- For this manual role: generate if match_score >= 35
 
-Hard filter risk guidelines — set hard_filter_risk: true ONLY for explicit, unambiguous requirements the candidate clearly does not meet:
-- Required credentials the candidate doesn't have (e.g. "CPA required", "JD required", "active bar license", "Series 7", "PMP required", "PE license")
-- Required security clearance the candidate doesn't hold
-- Required industry-specific experience stated as mandatory (e.g. "must have gaming industry experience", "healthcare regulatory only")
-- Minimum years of experience the candidate clearly falls short of (e.g. "10+ years required" when candidate has 3)
-- Do NOT flag as hard filter: preferred credentials, nice-to-have certifications, domain exposure that's transferable, standard phrasing like "experience with X preferred"
-- hard_filter_reasons should name the specific requirement, e.g. "CPA license required", "10+ years required", "gaming industry mandatory"
+── DOMAIN ALIGNMENT ─────────────────────────────────────────────────────────
+Use these calibrations when scoring:
 
-Domain alignment notes (use these to calibrate your score):
-- Compliance/regulatory operations roles are a STRONG match for this candidate: she has direct experience managing 700+ IRS filings annually with 100% accuracy, nonprofit regulatory compliance, and audit-ready documentation practices. Compliance work is operationally transferable — deadline tracking, documentation systems, audit readiness, and cross-functional coordination are the core skills regardless of the specific regulatory domain (IRS, state tax, gaming licenses, etc.).
-- When a role requires specific regulatory domains the candidate hasn't listed explicitly (e.g. sales tax, charitable gaming), treat this as a minor gap — not a disqualifier. Operational compliance skills transfer directly.
-- CRM governance and data integrity roles are a STRONG match: she has hands-on Salesforce administration, governance, and data quality work.
-- Nonprofit and association management contexts are a STRONG match: she has worked at nonprofit/association organizations and understands the regulatory environment including IRS compliance, exemption status, and audit documentation.
-- Roles that are primarily accounting, bookkeeping, or financial analysis (not compliance/operations) are a WEAK match.
+COMPLIANCE & REGULATORY — STRONG match:
+- Candidate managed IRS federal compliance governance for 883 affiliates across all 50 states.
+  This IS multi-jurisdictional compliance at national scale.
+- She monitored 883 external entities, reviewed/validated their financial submissions, assessed
+  compliance status, identified noncompliant entities, and remediated noncompliance including
+  revoking tax-exempt status. This IS third-party due diligence.
+- She built and enforced compliance frameworks, developed escalation paths, conducted
+  noncompliance investigations, and maintained ongoing risk assessment and gap identification.
+- International export compliance under USDA and WTC regulations (Leprino Foods) is a second
+  regulatory-heavy environment — use this when JDs ask for fintech OR regulatory experience.
+- When a JD asks for a specific regulatory domain not explicitly listed (sales tax, gaming,
+  healthcare), treat it as a soft gap only — operational compliance skills transfer directly.
+
+CRM & DATA INTEGRITY — STRONG match:
+- Hands-on Salesforce administration, governance, and data quality work. 8,000+ records managed.
+
+NONPROFIT / ASSOCIATION MANAGEMENT — STRONG match:
+- Direct experience in nonprofit/association regulatory environment including IRS compliance,
+  exemption status governance, and audit documentation.
+
+AI TOOLS — flag as a strength when JD mentions AI:
+- Candidate is an active daily user of Claude, ChatGPT, and Gemini for workflow optimization.
+
+PROJECT MANAGEMENT — frame as initiative leadership:
+- Candidate led two org-wide compliance initiatives end-to-end, not just coordination.
+
+WEAK match: roles that are primarily accounting, bookkeeping, or financial analysis.
+
+── SALARY & LOCATION FILTERS ────────────────────────────────────────────────
+If the JD specifies salary below $85,000, add to hard_filter_reasons: "Salary below $85k minimum"
+If the role requires relocation outside Denver metro OR is fully on-site outside Denver,
+add to hard_filter_reasons: "Location outside Denver metro / relocation required"
+Set hard_filter_risk: true if either filter triggers.
+
+── HARD FILTER RISK ─────────────────────────────────────────────────────────
+Set hard_filter_risk: true ONLY for explicit, unambiguous requirements the candidate cannot meet:
+- Required credentials not held (CPA, JD, bar license, Series 7, PMP, PE, security clearance)
+- Mandatory industry stated as non-negotiable with no transferable equivalent
+- Years of experience the candidate clearly does not meet
+- Salary below $85k or location outside Denver metro (per filters above)
+Do NOT flag: preferred credentials, transferable domains, soft vocabulary gaps.
 
 Keep strengths, gaps, and hard_filter_reasons concise (one phrase or sentence each).`
 
@@ -160,6 +205,45 @@ EDUCATION
 TECHNICAL TOOLS
 
 [Tool1] | [Tool2] | [Tool3] | [Tool4]
+
+REFRAMING PRINCIPLES — apply these when writing bullets and the summary:
+
+1. COMPLIANCE FRAMEWORK LANGUAGE
+   The candidate's AAUW work is not just "filing IRS forms." Frame it as:
+   - Building and enforcing compliance frameworks at national scale
+   - Developing governance frameworks and escalation paths
+   - Conducting noncompliance investigations and implementing remediation
+   - Monitoring compliance across 883 external entities (third parties)
+   - Maintaining ongoing risk assessment and gap identification
+   Use whichever framing is most relevant to the target JD.
+
+2. THIRD-PARTY DUE DILIGENCE
+   AAUW's 883 affiliates ARE third parties. Frame affiliate compliance work as:
+   - Reviewing and validating external entity financial submissions
+   - Assessing compliance status and identifying noncompliant entities
+   - Remediating noncompliance including revoked tax-exempt status
+   - Maintaining ongoing monitoring across a national network
+   Use this framing whenever the JD asks for third-party due diligence experience.
+
+3. REGULATORY-HEAVY ENVIRONMENT
+   The candidate has TWO regulatory-heavy environments:
+   - IRS federal compliance governance across 50 states (AAUW)
+   - International export compliance under USDA and WTC regulations (Leprino)
+   Surface whichever is more relevant to the JD. Both are legitimate.
+
+4. MULTI-JURISDICTIONAL COMPLIANCE
+   Managing IRS compliance for 883 affiliates across all 50 states IS multi-jurisdictional
+   compliance at national scale. Use this exact framing when JDs ask for multi-state or
+   multi-jurisdiction experience.
+
+5. AI TOOLS
+   The candidate is an active daily user of Claude, ChatGPT, and Gemini for compliance
+   workflow optimization. Surface this prominently when the JD mentions AI tools or
+   AI-assisted workflows.
+
+6. PROJECT MANAGEMENT
+   The candidate led two org-wide compliance initiatives end-to-end. Frame this as
+   initiative leadership, not just coordination.
 
 RULES — violating any rule makes the output unusable:
 1. The five section headers must appear EXACTLY as shown: PROFESSIONAL SUMMARY, CORE COMPETENCIES, PROFESSIONAL EXPERIENCE, EDUCATION, TECHNICAL TOOLS — no substitutions, no additions, no extra sections
