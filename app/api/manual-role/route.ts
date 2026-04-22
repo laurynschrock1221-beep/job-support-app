@@ -100,8 +100,8 @@ Do NOT flag: preferred credentials, transferable domains, soft vocabulary gaps.
 Keep strengths, gaps, and hard_filter_reasons concise (one phrase or sentence each).`
 
   const message = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 512,
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1024,
     messages: [{ role: 'user', content: prompt }],
   })
 
